@@ -11,10 +11,11 @@ module.exports = {
   entry: './src/index.tsx',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: path.resolve(__dirname, 'dist'),
     hot: true,
-    port: 4000,
     open: true,
+    port: 4000,
+    watchContentBase: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
