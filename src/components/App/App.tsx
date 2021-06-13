@@ -1,4 +1,3 @@
-import 'tailwindcss/tailwind.css';
 import React from 'react';
 
 /**
@@ -6,8 +5,8 @@ import React from 'react';
  */
 function App() {
   return (
-    <div className="container mx-auto px-4 p-3">
-      <p>Testing</p>
+    <div className="container">
+      <p>Ok working</p>
     </div>
   );
 }
