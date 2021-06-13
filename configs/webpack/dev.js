@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
   optimization: {
     usedExports: true,
   },
-  entry: ['react-hot-loader/patch', 'webpack/hot/only-dev-server', './src/index.tsx'],
+  entry: './src/index.tsx',
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
@@ -21,12 +22,20 @@ module.exports = {
       template: './src/index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
   ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: ['react-hot-loader/webpack', 'babel-loader', 'ts-loader'],
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              plugins: [require.resolve('react-refresh/babel')],
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
       {
