@@ -3,10 +3,17 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  context: path.resolve(__dirname, '../../src'),
+  entry: './index.tsx',
+  output: {
+    publicPath: '/',
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, '../../dist'),
+    clean: true,
+  },
   optimization: {
     usedExports: true,
   },
-  entry: path.resolve(__dirname, '../../src/index.tsx'),
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Web Client',
@@ -48,11 +55,5 @@ module.exports = {
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     modules: [path.resolve(__dirname, '../../src'), path.resolve(__dirname, '../../node_modules')],
-  },
-  output: {
-    publicPath: '/',
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, '../../dist'),
-    clean: true,
   },
 };

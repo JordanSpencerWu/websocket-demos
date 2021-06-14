@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "sideEffects": false,
   "scripts": {
     "build": "webpack --config=configs/webpack/dev.js",
     "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
