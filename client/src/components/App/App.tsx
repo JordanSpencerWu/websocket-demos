@@ -5,9 +5,9 @@ import React from 'react';
  */
 function App() {
   return (
-    <div>
+    <main>
       <p>Ok working</p>
-    </div>
+    </main>
   );
 }
 
