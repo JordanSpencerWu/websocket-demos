@@ -16,7 +16,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Messenger Client',
+      title: 'Websocket Demo',
       template: path.resolve(__dirname, '../../src/index.html'),
     }),
     new TsconfigPathsPlugin({ configFile: 'tsconfig.json' }),

@@ -2,7 +2,11 @@ module.exports = {
   purge: [['./dist/*.html']],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'green-gecko': 'rgb(var(--green-gecko-rgb))',
+      },
+    },
   },
   variants: {
     extend: {},

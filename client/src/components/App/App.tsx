@@ -1,13 +1,21 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+import AppLayout from 'components/AppLayout';
+import WelcomePage from 'components/WelcomePage';
+import NoMatchPage from 'components/NoMatchPage';
 
 /**
- * Web client application component.
+ * Application component that defines the routes.
  */
 function App() {
   return (
-    <main>
-      <p>Ok working</p>
-    </main>
+    <Routes>
+      <Route path="/" element={<AppLayout />}>
+        <Route index element={<WelcomePage />} />
+        <Route path="*" element={<NoMatchPage />} />
+      </Route>
+    </Routes>
   );
 }
 
