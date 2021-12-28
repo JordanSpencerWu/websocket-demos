@@ -15,8 +15,6 @@ defmodule Server.Application do
       ServerWeb.Endpoint
     ]
 
-    :ets.new(:game_state, [:public, :named_table])
-
     opts = [strategy: :one_for_one, name: Server.Supervisor]
     Supervisor.start_link(children, opts)
   end
