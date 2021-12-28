@@ -1,33 +1,31 @@
 defmodule GameEngine.Rules do
   alias __MODULE__
 
-  defstruct state: :initialized,
+  @players [:player1, :player2]
+
+  defstruct state: :waiting_for_players,
             player1: :not_joined,
             player2: :not_joined
 
   def new(), do: %Rules{}
 
-  def check(%Rules{state: :initialized} = rules, {:player1, :joined}) do
-    {:ok, %Rules{rules | state: :waiting_for_players, player1: :joined}}
-  end
+  def check(%Rules{state: :waiting_for_players} = rules, {player, :joined}) when player in @players do
+    rules = Map.put(rules, player, :joined)
 
-  def check(%Rules{state: :waiting_for_players} = rules, {:player2, :joined}) do
-    {:ok, %Rules{rules | state: :players_ready, player2: :joined}}
-  end
-
-  def check(%Rules{state: :players_ready} = rules, {:player1, :ready}) do
-    if rules.player2 == :ready do
-      {:ok, %Rules{rules | state: random_player_turn(), player1: :ready}}
+    if rules.player1 == :joined and rules.player2 == :joined do
+      {:ok, %Rules{rules | state: :players_ready, player1: :joined}}
     else
-      {:ok, %Rules{rules | state: :players_ready, player1: :ready}}
+      {:ok, rules}
     end
   end
 
-  def check(%Rules{state: :players_ready} = rules, {:player2, :ready}) do
-    if rules.player1 == :ready do
-      {:ok, %Rules{rules | state: random_player_turn(), player2: :ready}}
+  def check(%Rules{state: :players_ready} = rules, {player, :ready}) when player in @players do
+    rules = Map.put(rules, player, :ready)
+
+    if rules.player1 == :ready and rules.player2 == :ready do
+      {:ok, %Rules{rules | state: random_player_turn()}}
     else
-      {:ok, %Rules{rules | state: :players_ready, player2: :ready}}
+      {:ok, rules}
     end
   end
 

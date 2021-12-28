@@ -5,7 +5,7 @@ defmodule GameEngine.Board do
   @enforce_keys [:x_coordinates, :o_coordinates]
   defstruct [:x_coordinates, :o_coordinates]
 
-  @choices [:x, :o]
+  @choices [:x_coordinates, :o_coordinates]
   @win_conditions [
     MapSet.new([%Coordinate{row: 0, col: 0}, %Coordinate{row: 0, col: 1}, %Coordinate{row: 0, col: 2}]),
     MapSet.new([%Coordinate{row: 1, col: 0}, %Coordinate{row: 1, col: 1}, %Coordinate{row: 1, col: 2}]),
@@ -26,7 +26,7 @@ defmodule GameEngine.Board do
          false <- MapSet.member?(board.x_coordinates, coordinate),
          false <- MapSet.member?(board.o_coordinates, coordinate) do
         board =
-          if choice == :x do
+          if choice == :x_coordinates do
             %Board{board | x_coordinates: MapSet.put(board.x_coordinates, coordinate)}
           else
             %Board{board | o_coordinates: MapSet.put(board.o_coordinates, coordinate)}
