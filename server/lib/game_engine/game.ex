@@ -100,4 +100,8 @@ defmodule GameEngine.Game do
   defp update_board(state, board) do
     %{state | board: board}
   end
+
+  def via_tuple(name) do
+    {:via, Registry, {Registry.Game, name}}
+  end
 end

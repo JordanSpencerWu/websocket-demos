@@ -8,24 +8,16 @@ defmodule Server.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Telemetry supervisor
       ServerWeb.Telemetry,
-      # Start the PubSub system
       {Phoenix.PubSub, name: Server.PubSub},
-      # Start the Endpoint (http/https)
+      {Registry, keys: :unique, name: Registry.Game},
       ServerWeb.Endpoint
-      # Start a worker by calling: Server.Worker.start_link(arg)
-      # {Server.Worker, arg}
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Server.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
     ServerWeb.Endpoint.config_change(changed, removed)
