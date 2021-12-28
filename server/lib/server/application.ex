@@ -11,8 +11,11 @@ defmodule Server.Application do
       ServerWeb.Telemetry,
       {Phoenix.PubSub, name: Server.PubSub},
       {Registry, keys: :unique, name: Registry.Game},
+      {DynamicSupervisor, strategy: :one_for_one, name: GameEngine.GameSupervisor},
       ServerWeb.Endpoint
     ]
+
+    :ets.new(:game_state, [:public, :named_table])
 
     opts = [strategy: :one_for_one, name: Server.Supervisor]
     Supervisor.start_link(children, opts)

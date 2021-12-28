@@ -1,11 +1,12 @@
 defmodule GameEngine.Game do
-  use GenServer
+  use GenServer, restart: :transient
 
   alias __MODULE__
   alias GameEngine.Board
   alias GameEngine.Rules
 
   @players [:player1, :player2]
+  @timeout 1000 * 60 * 5
 
   defstruct game_name: nil,
             player1: %{name: nil},
@@ -15,13 +16,13 @@ defmodule GameEngine.Game do
             winner: nil
 
   def start_link(game_name) when is_binary(game_name) do
-    GenServer.start_link(__MODULE__, game_name, [])
+    GenServer.start_link(__MODULE__, game_name, name: via_tuple(game_name))
   end
 
   def init(game_name) do
     game = Map.put(%Game{}, :game_name, game_name)
   
-    {:ok, game}
+    {:ok, game, @timeout}
   end
 
   def player_joined(game, player, player_name) when player in @players and is_binary(player_name) do
@@ -43,9 +44,9 @@ defmodule GameEngine.Game do
         |> update_player_name(player, player_name)
         |> update_rules(rules)
 
-      {:reply, :ok, state}
+      {:reply, :ok, state, @timeout}
     else
-      :error -> {:reply, :error, state}
+      :error -> {:reply, :error, state, @timeout}
     end
   end
 
@@ -53,9 +54,9 @@ defmodule GameEngine.Game do
     with {:ok, rules} <- Rules.check(state.rules, {player, :ready}) do
       state = update_rules(state, rules)
 
-      {:reply, :ok, state}
+      {:reply, :ok, state, @timeout}
     else
-      :error -> {:reply, :error, state}
+      :error -> {:reply, :error, state, @timeout}
     end
   end
 
@@ -78,13 +79,21 @@ defmodule GameEngine.Game do
         |> update_board(board)
 
       if check_win? do
-        {:reply, :ok, %{state | winner: player}}
+        {:reply, :ok, %{state | winner: player}, @timeout}
       else
-        {:reply, :ok, state}
+        {:reply, :ok, state, @timeout}
       end
     else
-      _error -> {:reply, :error, state}
+      _error -> {:reply, :error, state, @timeout}
     end
+  end
+
+  def handle_info(:timeout, state) do
+    {:stop, {:shutdown, :timeout}, state}
+  end
+
+  def via_tuple(name) do
+    {:via, Registry, {Registry.Game, name}}
   end
 
   defp update_player_name(state, player, name) do
@@ -99,9 +108,5 @@ defmodule GameEngine.Game do
 
   defp update_board(state, board) do
     %{state | board: board}
-  end
-
-  def via_tuple(name) do
-    {:via, Registry, {Registry.Game, name}}
   end
 end
