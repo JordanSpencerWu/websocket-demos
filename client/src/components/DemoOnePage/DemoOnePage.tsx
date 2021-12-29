@@ -1,10 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import WelcomeScreen from './screens/WelcomeScreen';
-import SignInScreen from './screens/SignInScreen';
+import { useAppSelector } from 'components/DemoOnePage/app/hooks';
+import { selectUser } from 'components/DemoOnePage/app/features/game/gameSlice';
+
+import GameScreen from './screens/GameScreen';
 import {
+  SignInScreen,
+  WelcomeScreen,
   SIGN_IN_SCREEN,
   WELCOME_SCREEN
 } from './screens';
@@ -16,15 +19,17 @@ function renderScreen(screen: string) {
     case WELCOME_SCREEN:
       return <WelcomeScreen />;
     default:
-      throw new Error('Invalid screen.')
+      return <GameScreen />;
   }
 }
 
 function DemoOnePage() {
-  const { screen = WELCOME_SCREEN } = useParams();
-  const userName = useSelector(state => state.game.userName);
+  let { screen } = useParams();
+  const userName = useAppSelector(selectUser);
 
-  console.log('testing', userName);
+  if (!userName && !screen) {
+    screen = WELCOME_SCREEN;
+  }
 
   return (
     <div className="w-2/3 h-2/3 border-2 rounded-sm border-green-gecko flex">

@@ -5,7 +5,8 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState: {
     userName: '',
-    token: null
+    token: null,
+    games: []
   },
   reducers: {
     addUserName: (state, action) => {
@@ -21,5 +22,6 @@ export const { addUserName, addToken } = gameSlice.actions;
 
 export const selectUser = (state: RootState) => state.game.userName;
 export const selectToken = (state: RootState) => state.game.token;
+export const selectGames = (state: RootState) => state.game.games;
 
 export default gameSlice.reducer;

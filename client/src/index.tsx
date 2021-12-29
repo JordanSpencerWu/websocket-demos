@@ -3,10 +3,10 @@ import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-
-import './style.css';
 import App from 'components/App';
 import store from 'components/DemoOnePage/app/store';
+
+import './style.css';
 
 render(
   <React.StrictMode>

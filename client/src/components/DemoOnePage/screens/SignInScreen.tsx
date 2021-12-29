@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 
 import Button from 'components/Button';
+import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
+import { addUserName, addToken } from 'components/DemoOnePage/app/features/game/gameSlice';
 import pathTo from 'utils/pathTo';
 import service from 'services/service';
-
-import { useAppDispatch } from '../app/hooks';
-import { addUserName, addToken } from '../app/features/game/gameSlice';
 
 function SignInScreen() {
   const [userName, setUserName] = useState('');
