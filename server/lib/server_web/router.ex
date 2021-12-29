@@ -19,10 +19,12 @@ defmodule ServerWeb.Router do
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
-    scope "/" do
+    scope "/", ServerWeb do
       pipe_through [:fetch_session, :protect_from_forgery]
 
-      live_dashboard "/dashboard", metrics: ServerWeb.Telemetry
+      post "/token", TokenController, :create
+
+      live_dashboard "/dashboard", metrics: Telemetry
     end
   end
 end
