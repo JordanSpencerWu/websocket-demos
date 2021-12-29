@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 
 import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
+import service from 'services/service';
+
+import { useAppDispatch } from '../app/hooks';
+import { addUserName, addToken } from '../app/features/game/gameSlice';
 
 function SignInScreen() {
   const [userName, setUserName] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const showButton = Boolean(userName);
 
   const buttonClass = classnames(
@@ -17,6 +25,16 @@ function SignInScreen() {
 
   function handleSubmit(event: React.MouseEvent): void {
     event.preventDefault();
+
+    service.createToken("test")
+    .then((response: Response) => response.json())
+    .then(data => {
+      const { token } = data;
+
+      dispatch(addUserName(userName));
+      dispatch(addToken(token));
+      navigate(pathTo.demo1.index);
+    });
   }
 
   return (
