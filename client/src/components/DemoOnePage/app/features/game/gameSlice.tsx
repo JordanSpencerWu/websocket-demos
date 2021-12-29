@@ -1,17 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../store';
 
 export const gameSlice = createSlice({
   name: 'game',
   initialState: {
-    userName: ''
+    userName: '',
+    token: null
   },
   reducers: {
-    setUserName: (state, action) => {
+    addUserName: (state, action) => {
       state.userName = action.payload
+    },
+    addToken: (state, action) => {
+      state.token = action.payload
     }
   }
 })
 
-export const { setUserName } = gameSlice.actions;
+export const { addUserName, addToken } = gameSlice.actions;
+
+export const selectUser = (state: RootState) => state.game.userName;
+export const selectToken = (state: RootState) => state.game.token;
 
 export default gameSlice.reducer;
