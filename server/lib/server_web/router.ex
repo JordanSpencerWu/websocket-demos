@@ -7,6 +7,8 @@ defmodule ServerWeb.Router do
 
   scope "/api", ServerWeb do
     pipe_through :api
+
+    post "/token", TokenController, :create
   end
 
   # Enables LiveDashboard only for development
@@ -21,8 +23,6 @@ defmodule ServerWeb.Router do
 
     scope "/", ServerWeb do
       pipe_through [:fetch_session, :protect_from_forgery]
-
-      post "/token", TokenController, :create
 
       live_dashboard "/dashboard", metrics: Telemetry
     end
