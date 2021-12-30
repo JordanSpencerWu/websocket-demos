@@ -16,10 +16,17 @@ defmodule ServerWeb.GameRoomChannel do
 
   @impl true
   def handle_in("create_game", game_name, socket) do
-    GameSupervisor.start_game(game_name)
-    game = Game.state(game_name)
-    broadcast!(socket, "game_created", game)
+    result = GameSupervisor.start_game(game_name)
 
-    {:noreply, socket}
+    case result do
+      {:ok, _pid} ->
+        game = Game.state(game_name)
+        broadcast!(socket, "game_created", game)
+        
+        {:reply, :ok, socket}
+
+      {:error, _} ->
+        {:reply, {:error, :already_started}, socket}
+    end
   end
 end

@@ -4,10 +4,10 @@ import classnames from 'classnames';
 
 import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
+import { CREATE_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
+import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
+import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
 
-import { SocketContext } from '../../../providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from '../../../channels';
-import { CREATE_GAME_EVENT } from '../../../channelEvents';
 
 function CreateGameContent() {
   const [gameName, setGameName] = useState('');
@@ -30,8 +30,13 @@ function CreateGameContent() {
     if (socket != null) {
       const gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
 
-      gameLobbyChannel.push(CREATE_GAME_EVENT, gameName);
-      navigate(pathTo.demo1.game(gameName));
+      gameLobbyChannel.push(CREATE_GAME_EVENT, gameName)
+      .receive("ok", () => {
+        navigate(pathTo.demo1.index);
+      })
+      .receive("error", () => {
+        alert(`The game name ${gameName} already existed please create a different one.`)
+      });
     }
   }
 

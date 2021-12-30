@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
+import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
 import service from 'services/service';
 
 import DefaultContent from './contents/DefaultContent';
@@ -10,8 +12,6 @@ import CreateGameContent from './contents/CreateGameContent';
 import GameContent from './contents/GameContent';
 import GameList from './GameList';
 import { CREATE_GAME_CONTENT, GAME_CONTENT } from '../index';
-import { SocketContext } from '../../providers/SocketProvider';
-import { GAME_LOBBY_CHANNEL } from '../../channels';
 
 function renderContent(screen: string) {
   switch(screen) {
