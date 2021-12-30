@@ -7,7 +7,7 @@ import { selectGames, addGame, removeGame } from 'components/DemoOnePage/app/fea
 import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
 import { GAME_CREATED_EVENT, GAME_DELETED_EVENT } from 'components/DemoOnePage/channelEvents';
-import useSocketOnListener from 'components/DemoOnePage/hooks/useSocketOnListener';
+import { useSocketOnListener } from 'components/DemoOnePage/hooks';
 import pathTo from 'utils/pathTo';
 
 
@@ -77,8 +77,8 @@ function GameList() {
                     to={pathTo.demo1.game(game_name)}
                     className={linkClass}
                   >
-                    {game_name}
-                    <span className="text-xs">{getGameStatus(game.rules.state)}</span>
+                    <p className="truncate">{game_name}</p>
+                    <span className="text-xs mt-1">{getGameStatus(game.rules.state)}</span>
                   </Link>
                 </li>
               );

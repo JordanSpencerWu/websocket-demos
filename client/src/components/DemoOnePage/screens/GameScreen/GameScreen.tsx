@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
-import useJoinChannel from 'components/DemoOnePage/hooks/useJoinChannel';
+import { useJoinChannel } from 'components/DemoOnePage/hooks';
 import service from 'services/service';
 
 import DefaultContent from './contents/DefaultContent';

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectUserName, selectGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
+import { selectUserName, selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
-import { DELETE_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
+import { DELETE_GAME_EVENT, PLAYER_JOINED_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import useJoinChannel from 'components/DemoOnePage/hooks/useJoinChannel';
+import { useJoinChannel, useSocketOnListener } from 'components/DemoOnePage/hooks';
 import { findChannelTopic, GAME_LOBBY_CHANNEL, getGameRoomChannel } from 'components/DemoOnePage/channels';
 import pathTo from 'utils/pathTo';
 
@@ -25,6 +25,7 @@ function renderGameState(game: any) {
 
 function GameContent() {
   const socket = useContext(SocketContext);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { gameName } = useParams();
   const userName = useAppSelector(selectUserName);
@@ -35,6 +36,12 @@ function GameContent() {
   const gameRoomChannelTopic = getGameRoomChannel(gameName);
 
   useJoinChannel(gameRoomChannelTopic);
+
+  const handleOnPlayerJoined = (payload: object) => {
+    dispatch(updateGame(payload));
+  }
+
+  useSocketOnListener(gameRoomChannelTopic, PLAYER_JOINED_GAME_EVENT, handleOnPlayerJoined);
 
   useEffect(() => {
     if (!game) {

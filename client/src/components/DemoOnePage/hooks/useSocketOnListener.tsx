@@ -1,23 +1,19 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic } from 'components/DemoOnePage/channels';
+import { findChannelTopic, findChannelListenEvent } from 'components/DemoOnePage/channels';
 
 function useSocketOnListener(channelTopic: string, event: string, callback: (payload: any) => void) {
-  const [channel, setChannel] = useState(null);
   const socket = useContext(SocketContext);
-  const channels = socket == null ? [] : socket.channels;
-
-  if (channels != [] && channel == null) {
-    const foundChannel = findChannelTopic(channels, channelTopic) || null;
-
-    setChannel(foundChannel);
-  }
 
   useEffect(() => {
-    let handleRef: () => void;
+    const channels = socket == null ? [] : socket.channels;
+    const channel = findChannelTopic(channels, channelTopic) || null;
+    const bindings = channel == null ? [] : channel.bindings;
+    const binding = findChannelListenEvent(bindings, event) || null;
     
-    if (channel) {
+    let handleRef: () => void;
+    if (socket != null && channel && !binding) {
       handleRef = channel.on(event, callback);
     }
 
@@ -26,7 +22,7 @@ function useSocketOnListener(channelTopic: string, event: string, callback: (pay
         channel.off(event, handleRef);
       }
     }
-  }, [channel]);
+  }, [socket]);
 }
 
 export default useSocketOnListener;

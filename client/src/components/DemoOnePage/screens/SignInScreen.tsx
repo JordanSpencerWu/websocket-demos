@@ -25,7 +25,7 @@ function SignInScreen() {
   function handleSubmit(event: React.MouseEvent): void {
     event.preventDefault();
 
-    service.createToken("test")
+    service.createToken(name)
     .then((response: Response) => response.json())
     .then(data => {
       const { token } = data;
