@@ -1,10 +1,10 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import useSocketJoin from 'components/DemoOnePage/hooks/useSocketJoin';
 import service from 'services/service';
 
 import DefaultContent from './contents/DefaultContent';
@@ -28,11 +28,12 @@ function GameScreen() {
   const [loading, setLoading] = useState(true);
   let { screen: contentScreen, gameName } = useParams();
   const dispatch = useAppDispatch();
-  const socket = useContext(SocketContext);
 
   if (gameName) {
     contentScreen = GAME_CONTENT;
   }
+
+  useSocketJoin(GAME_LOBBY_CHANNEL);
 
   useEffect(() => {
     service.fetchGames()
@@ -44,21 +45,6 @@ function GameScreen() {
       setLoading(false);
     });
   }, []);
-
-  useEffect(() => {
-    let channel: any;
-
-    if (socket != null) {
-      channel = socket.channel(GAME_LOBBY_CHANNEL);
-      channel.join();
-    }
-
-    return () => {
-      if (channel) {
-        channel.leave();
-      }
-    }
-  }, [socket])
 
   if (loading) {
     return null;

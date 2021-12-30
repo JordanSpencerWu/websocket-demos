@@ -16,7 +16,9 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def join("game_room:" <> _game_name, _payload, socket) do
+  def join("game_room:" <> game_name, _payload, socket) do
+    socket = assign(socket, :game_name, game_name)
+
     {:ok, socket}
   end
 

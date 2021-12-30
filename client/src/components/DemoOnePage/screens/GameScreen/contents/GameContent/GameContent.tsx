@@ -6,7 +6,8 @@ import { selectUserName, selectGames } from 'components/DemoOnePage/app/features
 import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
 import { DELETE_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import useSocketJoin from 'components/DemoOnePage/hooks/useSocketJoin';
+import { findChannelTopic, GAME_LOBBY_CHANNEL, getGameRoomChannel } from 'components/DemoOnePage/channels';
 import pathTo from 'utils/pathTo';
 
 import WaitingState from './WaitingState';
@@ -31,6 +32,9 @@ function GameContent() {
 
   const userNameText = `username: ${userName}`;
   const game = games.find(game => game.game_name == gameName);
+  const GAME_ROOM_CHANNEL = getGameRoomChannel(gameName);
+
+  useSocketJoin(GAME_ROOM_CHANNEL);
 
   useEffect(() => {
     if (!game) {
@@ -42,10 +46,10 @@ function GameContent() {
     event.preventDefault();
 
     const shouldDelete = confirm("Want to delete game?");
+    const channels = socket == null ? [] : socket.channels;
+    const gameLobbyChannel = findChannelTopic(channels, GAME_LOBBY_CHANNEL);
     
-    if (shouldDelete && socket != null) {
-      const gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
-  
+    if (shouldDelete && gameLobbyChannel) {
       gameLobbyChannel.push(DELETE_GAME_EVENT, gameName)
       .receive("error", () => {
         alert(`Game not found for ${gameName}.`)

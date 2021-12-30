@@ -26,10 +26,11 @@ function CreateGameContent() {
 
   function handleSubmit(event: React.MouseEvent): void {
     event.preventDefault();
-    
-    if (socket != null) {
-      const gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
 
+    const channels = socket == null ? [] : socket.channels;
+    const gameLobbyChannel = findChannelTopic(channels, GAME_LOBBY_CHANNEL);
+    
+    if (gameLobbyChannel) {
       gameLobbyChannel.push(CREATE_GAME_EVENT, gameName)
       .receive("ok", () => {
         navigate(pathTo.demo1.index);

@@ -19,18 +19,18 @@ function SocketProvider(props: Props) {
 
   useEffect(() => {
     if (token != null && socket == null) {
-      const socket = new Socket(WS_URL, {params: {token}});
-      socket.connect();
-
-      setSocket(socket);
+      const newSocket = new Socket(WS_URL, {params: {token}});
+      newSocket.connect();
+      
+      setSocket(newSocket);
     }
 
     return () => {
-      if (socket) {
+      if (socket != null) {
         socket.disconnect();
       }
     }
-  }, [token]);
+  }, [token, socket]);
 
   return (
     <SocketContext.Provider value={socket}>
