@@ -6,9 +6,11 @@ defmodule ServerWeb.GameRoomChannel do
 
   @create_game_event "create_game"
   @delete_game_event "delete_game"
+  @player_join_game "player_join_game"
 
   @game_created_event "game_created"
   @game_deleted_event "game_deleted"
+  @player_joined_game "player_joined_game"
 
   @impl true
   def join("game_room:lobby", _payload, socket) do
@@ -34,7 +36,7 @@ defmodule ServerWeb.GameRoomChannel do
         {:reply, :ok, socket}
 
       {:error, _} ->
-        {:reply, {:error, :already_started}, socket}
+        {:reply, {:error, "failed to create game"}, socket}
     end
   end
 
@@ -49,7 +51,30 @@ defmodule ServerWeb.GameRoomChannel do
         {:reply, :ok, socket}
 
       {:error, :not_found} ->
-        {:reply, {:error, :not_found}, socket}
+        {:reply, {:error, "not_found"}, socket}
+
+      {:error, _} ->
+        {:reply, {:error, "failed to delete game"}, socket}
+    end
+  end
+
+  @impl true
+  def handle_in(@player_join_game, player, socket) do
+    game_name = socket.assigns.game_name
+    player_name = socket.assigns.user_name
+    player = String.to_existing_atom(player)
+
+    result = Game.player_joined(game_name, player, player_name)
+
+    case result do
+      :ok ->
+        game = Game.state(game_name)
+        broadcast!(socket, @player_joined_game, game)
+
+        {:reply, :ok, socket}
+
+      {:error, _} ->
+        {:reply, {:error, "failed to join game"}, socket}
     end
   end
 end
