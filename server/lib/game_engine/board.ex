@@ -7,14 +7,46 @@ defmodule GameEngine.Board do
 
   @choices [:x_coordinates, :o_coordinates]
   @win_conditions [
-    MapSet.new([%Coordinate{row: 0, col: 0}, %Coordinate{row: 0, col: 1}, %Coordinate{row: 0, col: 2}]),
-    MapSet.new([%Coordinate{row: 1, col: 0}, %Coordinate{row: 1, col: 1}, %Coordinate{row: 1, col: 2}]),
-    MapSet.new([%Coordinate{row: 2, col: 0}, %Coordinate{row: 2, col: 1}, %Coordinate{row: 2, col: 2}]),
-    MapSet.new([%Coordinate{row: 0, col: 0}, %Coordinate{row: 1, col: 0}, %Coordinate{row: 2, col: 0}]),
-    MapSet.new([%Coordinate{row: 0, col: 1}, %Coordinate{row: 1, col: 1}, %Coordinate{row: 2, col: 1}]),
-    MapSet.new([%Coordinate{row: 0, col: 2}, %Coordinate{row: 1, col: 2}, %Coordinate{row: 2, col: 2}]),
-    MapSet.new([%Coordinate{row: 0, col: 0}, %Coordinate{row: 1, col: 1}, %Coordinate{row: 2, col: 2}]),
-    MapSet.new([%Coordinate{row: 0, col: 2}, %Coordinate{row: 1, col: 1}, %Coordinate{row: 2, col: 0}])
+    MapSet.new([
+      %Coordinate{row: 0, col: 0},
+      %Coordinate{row: 0, col: 1},
+      %Coordinate{row: 0, col: 2}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 1, col: 0},
+      %Coordinate{row: 1, col: 1},
+      %Coordinate{row: 1, col: 2}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 2, col: 0},
+      %Coordinate{row: 2, col: 1},
+      %Coordinate{row: 2, col: 2}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 0, col: 0},
+      %Coordinate{row: 1, col: 0},
+      %Coordinate{row: 2, col: 0}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 0, col: 1},
+      %Coordinate{row: 1, col: 1},
+      %Coordinate{row: 2, col: 1}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 0, col: 2},
+      %Coordinate{row: 1, col: 2},
+      %Coordinate{row: 2, col: 2}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 0, col: 0},
+      %Coordinate{row: 1, col: 1},
+      %Coordinate{row: 2, col: 2}
+    ]),
+    MapSet.new([
+      %Coordinate{row: 0, col: 2},
+      %Coordinate{row: 1, col: 1},
+      %Coordinate{row: 2, col: 0}
+    ])
   ]
 
   def new() do
@@ -25,12 +57,12 @@ defmodule GameEngine.Board do
     with {:ok, coordinate} <- Coordinate.new(row, col),
          false <- MapSet.member?(board.x_coordinates, coordinate),
          false <- MapSet.member?(board.o_coordinates, coordinate) do
-        board =
-          if choice == :x_coordinates do
-            %Board{board | x_coordinates: MapSet.put(board.x_coordinates, coordinate)}
-          else
-            %Board{board | o_coordinates: MapSet.put(board.o_coordinates, coordinate)}
-          end
+      board =
+        if choice == :x_coordinates do
+          %Board{board | x_coordinates: MapSet.put(board.x_coordinates, coordinate)}
+        else
+          %Board{board | o_coordinates: MapSet.put(board.o_coordinates, coordinate)}
+        end
 
       {:ok, board}
     else

@@ -10,6 +10,8 @@ defmodule ServerWeb.Endpoint do
     signing_salt: "sI5p6FrQ"
   ]
 
+  socket "/socket", ServerWeb.UserSocket, websocket: true, longpoll: false
+
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   plug CORSPlug

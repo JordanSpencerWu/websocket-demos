@@ -21,11 +21,12 @@ defmodule GameEngine.Game do
 
   def init(game_name) do
     game = Map.put(%Game{}, :game_name, game_name)
-  
+
     {:ok, game, @timeout}
   end
 
-  def player_joined(game, player, player_name) when player in @players and is_binary(player_name) do
+  def player_joined(game, player, player_name)
+      when player in @players and is_binary(player_name) do
     GenServer.call(game, {:player_joined, player, player_name})
   end
 
@@ -73,7 +74,7 @@ defmodule GameEngine.Game do
          coordinates = Map.get(board, choice),
          check_win? = Board.check_win?(coordinates),
          {:ok, rules} = Rules.check(rules, {:check_win, check_win?}) do
-      state = 
+      state =
         state
         |> update_rules(rules)
         |> update_board(board)
