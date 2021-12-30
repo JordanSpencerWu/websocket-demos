@@ -1,6 +1,8 @@
 defmodule ServerWeb.UserSocket do
   use Phoenix.Socket
 
+  channel "game_room:*", MyAppWeb.RoomChannel
+
   @impl true
   def connect(%{"token" => token} = _params, socket, _connect_info) do
     result = Phoenix.Token.verify(socket, "user auth", token, max_age: 86400)
