@@ -21,6 +21,7 @@
     "@babel/preset-typescript": "^7.14.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/jest": "^26.0.23",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/node": "^15.12.2",
     "@types/phoenix": "^1.5.4",
     "@types/react": "^17.0.11",
@@ -59,6 +60,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
+    "lodash.debounce": "^4.0.8",
     "phoenix": "^1.6.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
