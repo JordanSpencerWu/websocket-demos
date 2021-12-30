@@ -7,9 +7,6 @@ import pathTo from 'utils/pathTo';
  * Navbar component that defines the navigation links.
  */
 function Navbar() {
-  // const resolved = useResolvedPath(to);
-  // const match = useMatch({ path: resolved.pathname, end: true });
-
   return (
     <div className="fixed w-full flex flex-col justify-center items-center">
       <h1 className="text-6xl mt-2">Websocket Demo</h1>

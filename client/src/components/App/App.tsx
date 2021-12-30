@@ -17,6 +17,7 @@ function App() {
         <Route path="demo-1">
           <Route path="" element={<DemoOnePage />}/>
           <Route path=":screen" element={<DemoOnePage />}/>
+          <Route path="game/:gameName" element={<DemoOnePage />}/>
         </Route>
         <Route path="*" element={<NoMatchPage />} />
       </Route>

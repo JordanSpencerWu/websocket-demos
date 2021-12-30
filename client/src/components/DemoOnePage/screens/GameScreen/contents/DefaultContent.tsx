@@ -3,9 +3,9 @@ import React from 'react';
 import { useAppSelector } from 'components/DemoOnePage/app/hooks';
 import { selectGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 
-import { NoGamesMessage } from './GameScreen/GameList';
+import { NoGamesMessage } from '../GameList';
 
-function DefaultScreen() {
+function DefaultContent() {
   const games = useAppSelector(selectGames);
 
   return (
@@ -20,4 +20,4 @@ function DefaultScreen() {
   )
 }
 
-export default DefaultScreen;
+export default DefaultContent;

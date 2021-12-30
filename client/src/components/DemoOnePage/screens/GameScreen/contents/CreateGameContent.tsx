@@ -5,11 +5,11 @@ import classnames from 'classnames';
 import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
 
-import { SocketContext } from '../providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from '../channels';
-import { CREATE_GAME_EVENT } from '../channelEvents';
+import { SocketContext } from '../../../providers/SocketProvider';
+import { findChannelTopic, GAME_LOBBY_CHANNEL } from '../../../channels';
+import { CREATE_GAME_EVENT } from '../../../channelEvents';
 
-function CreateGameScreen() {
+function CreateGameContent() {
   const [gameName, setGameName] = useState('');
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
@@ -31,9 +31,8 @@ function CreateGameScreen() {
       const gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
 
       gameLobbyChannel.push(CREATE_GAME_EVENT, gameName);
+      navigate(pathTo.demo1.game(gameName));
     }
-
-    navigate(pathTo.demo1.index);
   }
 
   function handleClose(): void {
@@ -61,4 +60,4 @@ function CreateGameScreen() {
   );
 }
 
-export default CreateGameScreen;
+export default CreateGameContent;

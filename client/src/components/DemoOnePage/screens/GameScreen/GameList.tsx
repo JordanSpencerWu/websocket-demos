@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { selectGames, addGame } from 'components/DemoOnePage/app/features/game/gameSlice';
@@ -13,6 +14,7 @@ export const NoGamesMessage = () => <p className="p-1">There are not current gam
 
 function GameList() {
   const games = useAppSelector(selectGames);
+  const { gameName } = useParams();
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const dispatch = useAppDispatch();
@@ -54,11 +56,27 @@ function GameList() {
         :
         <ol>
           {
-            games.map(game => (
-              <li key={game.game_name} className="p-1 cursor-pointer border-b border-green-gecko">
-               {game.game_name}
-              </li>
-            ))
+            games.map(game => {
+              const { game_name } = game;
+              const linkClass = classNames(
+                "block p-1 game-link cursor-pointer flex justify-between",
+                {
+                  "active": gameName == game_name
+                }
+              )
+
+              return (
+                <li key={game_name} className="border-b border-green-gecko">
+                  <Link
+                    to={pathTo.demo1.game(game_name)}
+                    className={linkClass}
+                  >
+                    {game_name}
+                    <span>in progress...</span>
+                  </Link>
+                </li>
+              );
+            })
           }
         </ol>
       }

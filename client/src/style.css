@@ -19,3 +19,14 @@ body {
 a.active {
   color: rgba(var(--green-gecko-rgb), 0.6);
 }
+
+.game-link:hover {
+  background-color: rgba(var(--green-gecko-rgb), 0.8);
+  color: white;
+}
+
+.game-link.active {
+  background-color: rgba(var(--green-gecko-rgb), 0.6);
+  color: white;
+  cursor: default;
+}
