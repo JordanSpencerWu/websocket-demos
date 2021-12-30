@@ -4,16 +4,16 @@ import classnames from 'classnames';
 
 import Button from 'components/Button';
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { addUserName, addToken } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { setUserName, setToken } from 'components/DemoOnePage/app/features/game/gameSlice';
 import pathTo from 'utils/pathTo';
 import service from 'services/service';
 
 function SignInScreen() {
-  const [userName, setUserName] = useState('');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const showButton = Boolean(userName);
+  const showButton = Boolean(name);
 
   const buttonClass = classnames(
     'mt-8',
@@ -30,8 +30,8 @@ function SignInScreen() {
     .then(data => {
       const { token } = data;
 
-      dispatch(addUserName(userName));
-      dispatch(addToken(token));
+      dispatch(setUserName(name));
+      dispatch(setToken(token));
       navigate(pathTo.demo1.index);
     });
   }
@@ -40,8 +40,8 @@ function SignInScreen() {
     <form className="flex flex-col justify-center items-center w-full">
       <label className="text-2xl mb-2">Enter Username</label>
       <input
-        value={userName}
-        onChange={e => setUserName(e.target.value)}
+        value={name}
+        onChange={e => setName(e.target.value)}
         className="text-black"
         type="text"
         autoFocus

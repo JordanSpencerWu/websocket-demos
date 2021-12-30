@@ -10,7 +10,6 @@ defmodule ServerWeb.GameController do
       |> Enum.map(fn game_name ->
         Game.state(game_name)
       end)
-      |> Enum.sort_by(&Map.fetch(&1, :game_name))
 
     json(conn, %{games: games})
   end

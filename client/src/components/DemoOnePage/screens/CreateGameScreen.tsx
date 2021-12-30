@@ -6,7 +6,7 @@ import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
 
 import { SocketContext } from '../providers/SocketProvider';
-import { GAME_LOBBY_CHANNEL } from '../channels';
+import { findChannelTopic, GAME_LOBBY_CHANNEL } from '../channels';
 import { CREATE_GAME_EVENT } from '../channelEvents';
 
 function CreateGameScreen() {
@@ -28,7 +28,7 @@ function CreateGameScreen() {
     event.preventDefault();
     
     if (socket != null) {
-      const gameLobbyChannel = socket.channels.find((channel: any) => channel.topic == GAME_LOBBY_CHANNEL);
+      const gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
 
       gameLobbyChannel.push(CREATE_GAME_EVENT, gameName);
     }
@@ -36,8 +36,13 @@ function CreateGameScreen() {
     navigate(pathTo.demo1.index);
   }
 
+  function handleClose(): void {
+    navigate(pathTo.demo1.index);
+  }
+
   return (
-    <form className="flex-grow flex flex-col justify-center items-center">
+    <form className="flex-grow flex flex-col justify-center items-center relative">
+      <button className="absolute top-0 right-0 mr-2 text-lg" onClick={handleClose}>x</button>
       <label className="text-2xl mb-2">Create Game</label>
       <input
         value={gameName}

@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { addGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 import service from 'services/service';
 
 import DefaultScreen from '../DefaultScreen';
@@ -33,7 +33,7 @@ function GameScreen() {
     .then(data => {
       const { games } = data;
 
-      dispatch(addGames(games));
+      dispatch(setGames(games));
       setLoading(false);
     });
   }, []);

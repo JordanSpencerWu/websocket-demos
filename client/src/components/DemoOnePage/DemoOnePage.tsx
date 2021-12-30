@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectUser } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSlice';
 import SocketProvider from 'components/DemoOnePage/providers/SocketProvider';
 
 import GameScreen from './screens/GameScreen';
@@ -26,7 +26,7 @@ function renderScreen(screen: string) {
 
 function DemoOnePage() {
   let { screen } = useParams();
-  const userName = useAppSelector(selectUser);
+  const userName = useAppSelector(selectUserName);
 
   if (!userName && !screen) {
     screen = WELCOME_SCREEN;

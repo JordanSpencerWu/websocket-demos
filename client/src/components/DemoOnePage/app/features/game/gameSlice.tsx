@@ -9,21 +9,24 @@ export const gameSlice = createSlice({
     games: []
   },
   reducers: {
-    addUserName: (state, action) => {
+    addGame: (state, action) => {
+      state.games = [...state.games, action.payload];
+    },
+    setUserName: (state, action) => {
       state.userName = action.payload
     },
-    addToken: (state, action) => {
+    setToken: (state, action) => {
       state.token = action.payload
     },
-    addGames: (state, action) => {
+    setGames: (state, action) => {
       state.games = action.payload
     }
   }
 })
 
-export const { addUserName, addToken, addGames } = gameSlice.actions;
+export const { addGame, setUserName, setToken, setGames } = gameSlice.actions;
 
-export const selectUser = (state: RootState) => state.game.userName;
+export const selectUserName = (state: RootState) => state.game.userName;
 export const selectToken = (state: RootState) => state.game.token;
 export const selectGames = (state: RootState) => state.game.games;
 

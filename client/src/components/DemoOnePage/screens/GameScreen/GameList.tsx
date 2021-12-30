@@ -1,16 +1,40 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { selectGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { selectGames, addGame } from 'components/DemoOnePage/app/features/game/gameSlice';
 import pathTo from 'utils/pathTo';
 
-export const NoGamesMessage = () => <p className="p-1">There's not current games. <Link className="underline" to={pathTo.demo1.createGame}>create game</Link></p>;
+import { SocketContext } from '../../providers/SocketProvider';
+import { findChannelTopic, GAME_LOBBY_CHANNEL } from '../../channels';
+import { GAME_CREATED_EVENT } from '../../channelEvents';
+
+export const NoGamesMessage = () => <p className="p-1">There are not current games. <Link className="underline" to={pathTo.demo1.createGame}>click here to reate game</Link></p>;
 
 function GameList() {
   const games = useAppSelector(selectGames);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const handleOnGameCreated = (game: object) => {
+      dispatch(addGame(game));
+    }
+
+    let handleRef: () => void;
+    let gameLobbyChannel: any;
+    if (socket != null) {
+      gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
+      handleRef = gameLobbyChannel.on(GAME_CREATED_EVENT, handleOnGameCreated);
+    }
+
+    return () => {
+      if (gameLobbyChannel) {
+        gameLobbyChannel.off(GAME_CREATED_EVENT, handleRef);
+      }
+    }
+  }, [socket]);
 
   function handleCreateGameClick(event: React.MouseEvent) {
     event.preventDefault();
