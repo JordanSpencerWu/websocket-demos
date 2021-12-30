@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { selectGames, addGame } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { GAME_CREATED_EVENT } from 'components/DemoOnePage/channelEvents';
-import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import { selectGames, addGame, removeGame } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
+import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import { GAME_CREATED_EVENT, GAME_DELETED_EVENT } from 'components/DemoOnePage/channelEvents';
+import useSocketOnListener from 'components/DemoOnePage/hooks/useSocketOnListener';
 import pathTo from 'utils/pathTo';
 
 
@@ -30,27 +30,19 @@ function GameList() {
   const games = useAppSelector(selectGames);
   const { gameName } = useParams();
   const navigate = useNavigate();
-  const socket = useContext(SocketContext);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const handleOnGameCreated = (game: object) => {
-      dispatch(addGame(game));
-    }
+  const handleOnGameCreated = (payload: object) => {
+    dispatch(addGame(payload));
+  }
 
-    let handleRef: () => void;
-    let gameLobbyChannel: any;
-    if (socket != null) {
-      gameLobbyChannel = findChannelTopic(socket, GAME_LOBBY_CHANNEL);
-      handleRef = gameLobbyChannel.on(GAME_CREATED_EVENT, handleOnGameCreated);
-    }
+  useSocketOnListener(GAME_LOBBY_CHANNEL, GAME_CREATED_EVENT, handleOnGameCreated);
 
-    return () => {
-      if (gameLobbyChannel) {
-        gameLobbyChannel.off(GAME_CREATED_EVENT, handleRef);
-      }
-    }
-  }, [socket]);
+  const handleOnGameDeleted = (payload: any) => {
+    dispatch(removeGame(payload.game_name));
+  }
+
+  useSocketOnListener(GAME_LOBBY_CHANNEL, GAME_DELETED_EVENT, handleOnGameDeleted);
 
   function handleCreateGameClick(event: React.MouseEvent) {
     event.preventDefault();

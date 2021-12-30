@@ -4,9 +4,13 @@ defmodule GameEngine.Game do
   alias __MODULE__
   alias GameEngine.Board
   alias GameEngine.Rules
+  alias ServerWeb.Endpoint
+
+  @game_deleted_event "game_deleted"
+  @game_lobby_channel "game_room:lobby"
 
   @players [:player1, :player2]
-  @timeout 1000 * 60 * 5
+  @timeout 1000 * 60 * 10
 
   @derive {Jason.Encoder, except: [:board]}
   defstruct game_name: nil,
@@ -107,6 +111,8 @@ defmodule GameEngine.Game do
   end
 
   def handle_info(:timeout, state) do
+    Endpoint.broadcast!(@game_lobby_channel, @game_deleted_event, %{game_name: state.game_name})
+
     {:stop, {:shutdown, :timeout}, state}
   end
 

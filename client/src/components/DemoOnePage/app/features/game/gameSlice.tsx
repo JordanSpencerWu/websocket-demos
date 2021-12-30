@@ -20,11 +20,14 @@ export const gameSlice = createSlice({
     },
     setGames: (state, action) => {
       state.games = action.payload
+    },
+    removeGame: (state, action) => {
+      state.games = state.games.filter(game => game.game_name !== action.payload);
     }
   }
 })
 
-export const { addGame, setUserName, setToken, setGames } = gameSlice.actions;
+export const { addGame, setUserName, setToken, setGames, removeGame } = gameSlice.actions;
 
 export const selectUserName = (state: RootState) => state.game.userName;
 export const selectToken = (state: RootState) => state.game.token;
