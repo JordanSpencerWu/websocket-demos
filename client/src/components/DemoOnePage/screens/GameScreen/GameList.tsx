@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from 'components/DemoOnePage/app/hooks';
+import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { selectGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 import pathTo from 'utils/pathTo';
 
@@ -9,6 +9,7 @@ export const NoGamesMessage = () => <p className="p-1">There's not current games
 
 function GameList() {
   const games = useAppSelector(selectGames);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   function handleCreateGameClick(event: React.MouseEvent) {
@@ -28,9 +29,13 @@ function GameList() {
         <NoGamesMessage />
         :
         <ol>
-          <li>
-            game 1
-          </li>
+          {
+            games.map(game => (
+              <li key={game.game_name} className="p-1 cursor-pointer border-b border-green-gecko">
+               {game.game_name}
+              </li>
+            ))
+          }
         </ol>
       }
     </div>

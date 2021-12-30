@@ -3,6 +3,7 @@ defmodule GameEngine.Board do
   alias GameEngine.Coordinate
 
   @enforce_keys [:x_coordinates, :o_coordinates]
+  @derive Jason.Encoder
   defstruct [:x_coordinates, :o_coordinates]
 
   @choices [:x_coordinates, :o_coordinates]

@@ -9,6 +9,7 @@ defmodule ServerWeb.Router do
     pipe_through :api
 
     post "/token", TokenController, :create
+    get "/games", GameController, :index
   end
 
   # Enables LiveDashboard only for development

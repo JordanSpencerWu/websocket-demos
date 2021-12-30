@@ -14,6 +14,18 @@ function createToken(user_name: string): Promise<object> {
   return fetch(url, options);
 }
 
+function fetchGames(): Promise<object> {
+  const url = `${HOST}/api/games`;
+  const options = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }
+
+  return fetch(url, options);
+}
+
 export default {
   createToken,
+  fetchGames,
 }

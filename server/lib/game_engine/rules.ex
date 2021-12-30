@@ -3,6 +3,7 @@ defmodule GameEngine.Rules do
 
   @players [:player1, :player2]
 
+  @derive Jason.Encoder
   defstruct state: :waiting_for_players,
             player1: :not_joined,
             player2: :not_joined

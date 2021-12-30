@@ -10,7 +10,7 @@ defmodule Server.Application do
     children = [
       ServerWeb.Telemetry,
       {Phoenix.PubSub, name: Server.PubSub},
-      {Registry, keys: :unique, name: Registry.Game},
+      {Registry, keys: :unique, name: GameRegistry},
       {DynamicSupervisor, strategy: :one_for_one, name: GameEngine.GameSupervisor},
       ServerWeb.Endpoint
     ]

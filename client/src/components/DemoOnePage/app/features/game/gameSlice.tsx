@@ -14,11 +14,14 @@ export const gameSlice = createSlice({
     },
     addToken: (state, action) => {
       state.token = action.payload
+    },
+    addGames: (state, action) => {
+      state.games = action.payload
     }
   }
 })
 
-export const { addUserName, addToken } = gameSlice.actions;
+export const { addUserName, addToken, addGames } = gameSlice.actions;
 
 export const selectUser = (state: RootState) => state.game.userName;
 export const selectToken = (state: RootState) => state.game.token;

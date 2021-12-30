@@ -1,5 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
+import { addGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import service from 'services/service';
 
 import DefaultScreen from '../DefaultScreen';
 import CreateGameScreen from '../CreateGameScreen';
@@ -18,8 +22,21 @@ function renderContent(screen: string) {
 }
 
 function GameScreen() {
+  const [loading, setLoading] = useState(true);
   const { screen: contentScreen } = useParams();
+  const dispatch = useAppDispatch();
   const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    service.fetchGames()
+    .then((response: Response) => response.json())
+    .then(data => {
+      const { games } = data;
+
+      dispatch(addGames(games));
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     let channel: any;
@@ -35,6 +52,10 @@ function GameScreen() {
       }
     }
   }, [socket])
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="w-full flex">

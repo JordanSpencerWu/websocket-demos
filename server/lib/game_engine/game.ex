@@ -8,6 +8,7 @@ defmodule GameEngine.Game do
   @players [:player1, :player2]
   @timeout 1000 * 60 * 5
 
+  @derive {Jason.Encoder, except: [:board]}
   defstruct game_name: nil,
             player1: %{name: nil},
             player2: %{name: nil},
@@ -25,17 +26,33 @@ defmodule GameEngine.Game do
     {:ok, game, @timeout}
   end
 
-  def player_joined(game, player, player_name)
+  def state(game_name) do
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, :state)
+  end
+
+  def player_joined(game_name, player, player_name)
       when player in @players and is_binary(player_name) do
-    GenServer.call(game, {:player_joined, player, player_name})
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, {:player_joined, player, player_name})
   end
 
-  def player_ready(game, player) when player in @players do
-    GenServer.call(game, {:player_ready, player})
+  def player_ready(game_name, player) when player in @players do
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, {:player_ready, player})
   end
 
-  def player_pick(game, player, row, col) when player in @players do
-    GenServer.call(game, {player, row, col})
+  def player_pick(game_name, player, row, col) when player in @players do
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, {player, row, col})
+  end
+
+  def handle_call(:state, _from, state) do
+    {:reply, state, state, @timeout}
   end
 
   def handle_call({:player_joined, player, player_name}, _from, state) do
@@ -94,7 +111,7 @@ defmodule GameEngine.Game do
   end
 
   def via_tuple(name) do
-    {:via, Registry, {Registry.Game, name}}
+    {:via, Registry, {GameRegistry, name}}
   end
 
   defp update_player_name(state, player, name) do
