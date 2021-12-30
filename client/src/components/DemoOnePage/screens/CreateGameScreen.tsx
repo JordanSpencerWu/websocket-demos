@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 
 import Button from 'components/Button';
+import pathTo from 'utils/pathTo';
 
+import { SocketContext } from '../providers/SocketProvider';
+import { GAME_LOBBY_CHANNEL } from '../channels';
+import { CREATE_GAME_EVENT } from '../channelEvents';
 
 function CreateGameScreen() {
   const [gameName, setGameName] = useState('');
+  const navigate = useNavigate();
+  const socket = useContext(SocketContext);
 
   const showButton = Boolean(gameName);
 
@@ -19,6 +26,14 @@ function CreateGameScreen() {
 
   function handleSubmit(event: React.MouseEvent): void {
     event.preventDefault();
+    
+    if (socket != null) {
+      const gameLobbyChannel = socket.channels.find((channel: any) => channel.topic == GAME_LOBBY_CHANNEL);
+
+      gameLobbyChannel.push(CREATE_GAME_EVENT, gameName);
+    }
+
+    navigate(pathTo.demo1.index);
   }
 
   return (

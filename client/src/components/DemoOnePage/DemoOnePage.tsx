@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppSelector } from 'components/DemoOnePage/app/hooks';
 import { selectUser } from 'components/DemoOnePage/app/features/game/gameSlice';
+import SocketProvider from 'components/DemoOnePage/providers/SocketProvider';
 
 import GameScreen from './screens/GameScreen';
 import {
@@ -32,9 +33,11 @@ function DemoOnePage() {
   }
 
   return (
-    <div className="w-2/3 h-2/3 border-2 rounded-sm border-green-gecko flex">
-      {renderScreen(screen)}
-    </div>
+    <SocketProvider>
+      <div className="w-2/3 h-2/3 border-2 rounded-sm border-green-gecko flex">
+        {renderScreen(screen)}
+      </div>
+    </SocketProvider>
   );
 }
 

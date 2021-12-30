@@ -1,7 +1,7 @@
 defmodule ServerWeb.UserSocket do
   use Phoenix.Socket
 
-  channel "game_room:*", MyAppWeb.RoomChannel
+  channel "game_room:*", ServerWeb.GameRoomChannel
 
   @impl true
   def connect(%{"token" => token} = _params, socket, _connect_info) do

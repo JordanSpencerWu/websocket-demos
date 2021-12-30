@@ -1,0 +1,1 @@
+export const CREATE_GAME_EVENT = "create_game";

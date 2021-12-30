@@ -6,23 +6,29 @@ import { selectToken } from 'components/DemoOnePage/app/features/game/gameSlice'
 
 export const WS_URL = "ws://localhost:4000/socket";
 
-const SocketContext = createContext(null);
+export const SocketContext = createContext(null);
 
 type Props = {
   children: React.ReactNode
 }
 
 function SocketProvider(props: Props) {
-  const [socket, setSocket] = useState<any>();
+  const [socket, setSocket] = useState<any>(null);
   const token = useAppSelector(selectToken);
   const { children } = props;
 
   useEffect(() => {
-    if (token != null && !socket) {
+    if (token != null && socket == null) {
       const socket = new Socket(WS_URL, {params: {token}});
       socket.connect();
 
       setSocket(socket);
+    }
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
     }
   }, [token]);
 
