@@ -6,7 +6,7 @@ import { selectUserName, selectGames } from 'components/DemoOnePage/app/features
 import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
 import { DELETE_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import useSocketJoin from 'components/DemoOnePage/hooks/useSocketJoin';
+import useJoinChannel from 'components/DemoOnePage/hooks/useJoinChannel';
 import { findChannelTopic, GAME_LOBBY_CHANNEL, getGameRoomChannel } from 'components/DemoOnePage/channels';
 import pathTo from 'utils/pathTo';
 
@@ -32,9 +32,9 @@ function GameContent() {
 
   const userNameText = `username: ${userName}`;
   const game = games.find(game => game.game_name == gameName);
-  const GAME_ROOM_CHANNEL = getGameRoomChannel(gameName);
+  const gameRoomChannelTopic = getGameRoomChannel(gameName);
 
-  useSocketJoin(GAME_ROOM_CHANNEL);
+  useJoinChannel(gameRoomChannelTopic);
 
   useEffect(() => {
     if (!game) {

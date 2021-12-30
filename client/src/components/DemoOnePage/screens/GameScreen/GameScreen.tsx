@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
-import useSocketJoin from 'components/DemoOnePage/hooks/useSocketJoin';
+import useJoinChannel from 'components/DemoOnePage/hooks/useJoinChannel';
 import service from 'services/service';
 
 import DefaultContent from './contents/DefaultContent';
@@ -33,7 +33,7 @@ function GameScreen() {
     contentScreen = GAME_CONTENT;
   }
 
-  useSocketJoin(GAME_LOBBY_CHANNEL);
+  useJoinChannel(GAME_LOBBY_CHANNEL);
 
   useEffect(() => {
     service.fetchGames()
