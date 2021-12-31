@@ -21,7 +21,7 @@ function useJoinChannel(channelTopic: string) {
         channel.leave();
       }
     };
-  }, [socket, channelTopic])
+  }, [socket, channelTopic]);
 }
 
 export default useJoinChannel;

@@ -14,7 +14,7 @@ function AppLayout() {
         <Outlet />
       </section>
     </main>
-  )
+  );
 }
 
 export default AppLayout;

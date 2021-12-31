@@ -7,23 +7,26 @@ type Props = {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
   to?: string;
-}
+};
 
 function Button(props: Props) {
-  const {
-    children,
-    to,
-    className: passedClassName = '',
-    ...rest
-  } = props;
+  const { children, to, className: passedClassName = '', ...rest } = props;
 
   const className = classNames(passedClassName, 'underline');
 
   if (to) {
-    return <Link {...rest} className={className} to={to}>{children}</Link>;
+    return (
+      <Link {...rest} className={className} to={to}>
+        {children}
+      </Link>
+    );
   }
 
-  return <a {...rest} className={className}>{children}</a>;
+  return (
+    <a {...rest} className={className}>
+      {children}
+    </a>
+  );
 }
 
 export default Button;

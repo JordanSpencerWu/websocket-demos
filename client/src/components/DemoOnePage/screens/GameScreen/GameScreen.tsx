@@ -15,13 +15,13 @@ import GameList from './GameList';
 import { CREATE_GAME_CONTENT, GAME_CONTENT } from '../index';
 
 function renderContent(screen: string) {
-  switch(screen) {
+  switch (screen) {
     case GAME_CONTENT:
       return <GameContent />;
     case CREATE_GAME_CONTENT:
       return <CreateGameContent />;
     default:
-      return <DefaultContent />
+      return <DefaultContent />;
   }
 }
 
@@ -38,14 +38,15 @@ function GameScreen() {
   useJoinChannel(GAME_LOBBY_CHANNEL);
 
   useEffect(() => {
-    service.fetchGames()
-    .then((response: Response) => response.json())
-    .then(data => {
-      const { games } = data;
+    service
+      .fetchGames()
+      .then((response: Response) => response.json())
+      .then((data) => {
+        const { games } = data;
 
-      dispatch(setGames(games));
-      setLoading(false);
-    });
+        dispatch(setGames(games));
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -62,7 +63,7 @@ function GameScreen() {
         {renderContent(contentScreen)}
       </div>
     </div>
-  )
+  );
 }
 
 export default GameScreen;

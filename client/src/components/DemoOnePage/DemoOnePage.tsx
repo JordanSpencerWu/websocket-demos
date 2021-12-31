@@ -6,15 +6,10 @@ import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSli
 import SocketProvider from 'components/DemoOnePage/providers/SocketProvider';
 
 import GameScreen from './screens/GameScreen';
-import {
-  SignInScreen,
-  WelcomeScreen,
-  SIGN_IN_SCREEN,
-  WELCOME_SCREEN
-} from './screens';
+import { SignInScreen, WelcomeScreen, SIGN_IN_SCREEN, WELCOME_SCREEN } from './screens';
 
 function renderScreen(screen: string) {
-  switch(screen) {
+  switch (screen) {
     case SIGN_IN_SCREEN:
       return <SignInScreen />;
     case WELCOME_SCREEN:

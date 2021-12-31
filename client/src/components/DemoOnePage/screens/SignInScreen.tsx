@@ -15,25 +15,23 @@ function SignInScreen() {
 
   const showButton = Boolean(name);
 
-  const buttonClass = classnames(
-    'mt-8',
-    {
-      invisible: !showButton
-    }
-  )
+  const buttonClass = classnames('mt-8', {
+    invisible: !showButton,
+  });
 
   function handleSubmit(event: React.MouseEvent): void {
     event.preventDefault();
 
-    service.createToken(name)
-    .then((response: Response) => response.json())
-    .then(data => {
-      const { token } = data;
+    service
+      .createToken(name)
+      .then((response: Response) => response.json())
+      .then((data) => {
+        const { token } = data;
 
-      dispatch(setUserName(name));
-      dispatch(setToken(token));
-      navigate(pathTo.demo1.index);
-    });
+        dispatch(setUserName(name));
+        dispatch(setToken(token));
+        navigate(pathTo.demo1.index);
+      });
   }
 
   return (
@@ -41,16 +39,12 @@ function SignInScreen() {
       <label className="text-2xl mb-2">Enter Username</label>
       <input
         value={name}
-        onChange={e => setName(e.target.value)}
+        onChange={(e) => setName(e.target.value)}
         className="text-black"
         type="text"
         autoFocus
       />
-      <Button
-        className={buttonClass}
-        to={pathTo.demo1.signIn}
-        onClick={handleSubmit}
-      >
+      <Button className={buttonClass} to={pathTo.demo1.signIn} onClick={handleSubmit}>
         Sign in
       </Button>
     </form>

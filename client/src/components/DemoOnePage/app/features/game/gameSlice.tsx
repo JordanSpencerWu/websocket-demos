@@ -6,14 +6,14 @@ export const gameSlice = createSlice({
   initialState: {
     userName: '',
     token: null,
-    games: []
+    games: [],
   },
   reducers: {
     addGame: (state, action) => {
       state.games = [...state.games, action.payload];
     },
     removeGame: (state, action) => {
-      state.games = state.games.filter(game => game.game_name !== action.payload);
+      state.games = state.games.filter((game) => game.game_name !== action.payload);
     },
     setGames: (state, action) => {
       state.games = action.payload;
@@ -25,20 +25,14 @@ export const gameSlice = createSlice({
       state.userName = action.payload;
     },
     updateGame: (state, action) => {
-      const index = state.games.findIndex(game => game.game_name == action.payload.game_name);
+      const index = state.games.findIndex((game) => game.game_name == action.payload.game_name);
       state.games[index] = action.payload;
     },
-  }
-})
+  },
+});
 
-export const {
-  addGame,
-  removeGame,
-  setGames,
-  setToken,
-  setUserName,
-  updateGame,
-} = gameSlice.actions;
+export const { addGame, removeGame, setGames, setToken, setUserName, updateGame } =
+  gameSlice.actions;
 
 export const selectUserName = (state: RootState) => state.game.userName;
 export const selectToken = (state: RootState) => state.game.token;

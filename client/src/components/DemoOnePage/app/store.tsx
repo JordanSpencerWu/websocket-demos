@@ -1,11 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 
 import gameReducer from './features/game/gameSlice';
 
 const store = configureStore({
   reducer: {
-    game: gameReducer
-  }
+    game: gameReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

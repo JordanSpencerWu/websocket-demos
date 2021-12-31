@@ -10,14 +10,9 @@ function DefaultContent() {
 
   return (
     <div className="flex-grow flex justify-center items-center">
-      {
-        games.length == 0 ?
-        <NoGamesMessage />
-        :
-        <p>Please select a game to join or watch</p>
-      }
+      {games.length == 0 ? <NoGamesMessage /> : <p>Please select a game to join or watch</p>}
     </div>
-  )
+  );
 }
 
 export default DefaultContent;

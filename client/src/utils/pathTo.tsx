@@ -9,6 +9,6 @@ export default {
     game: (gameName: string) => `/demo-1/game/${gameName}`,
   },
   demo2: {
-    index: '/demo-2'
-  }
-}
+    index: '/demo-2',
+  },
+};
