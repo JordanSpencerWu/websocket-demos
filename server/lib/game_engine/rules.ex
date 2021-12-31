@@ -10,6 +10,12 @@ defmodule GameEngine.Rules do
 
   def new(), do: %Rules{}
 
+  def check(rules, {player, :leave}) when player in @players do
+    rules = Map.put(rules, player, :not_joined)
+
+    {:ok, %Rules{rules | state: :waiting_for_players}}
+  end
+
   def check(%Rules{state: :waiting_for_players} = rules, {player, :joined})
       when player in @players do
     rules = Map.put(rules, player, :joined)

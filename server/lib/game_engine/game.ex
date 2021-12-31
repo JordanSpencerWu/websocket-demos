@@ -36,6 +36,12 @@ defmodule GameEngine.Game do
     GenServer.call(pid, :state)
   end
 
+  def player_leave(game_name, player) when player in @players do
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, {:player_left, player})
+  end
+
   def player_joined(game_name, player, player_name)
       when player in @players and is_binary(player_name) do
     [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
@@ -57,6 +63,19 @@ defmodule GameEngine.Game do
 
   def handle_call(:state, _from, state) do
     {:reply, state, state, @timeout}
+  end
+
+  def handle_call({:player_left, player}, _from, state) do
+    with {:ok, rules} <- Rules.check(state.rules, {player, :leave}) do
+      state =
+        state
+        |> update_player_name(player, nil)
+        |> update_rules(rules)
+
+      {:reply, :ok, state, @timeout}
+    else
+      :error -> {:reply, :error, state, @timeout}
+    end
   end
 
   def handle_call({:player_joined, player, player_name}, _from, state) do

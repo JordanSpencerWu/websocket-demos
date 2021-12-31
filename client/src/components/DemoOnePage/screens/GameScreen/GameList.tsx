@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { selectGames, addGame, removeGame } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
+import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
 import { GAME_CREATED_EVENT, GAME_DELETED_EVENT } from 'components/DemoOnePage/channelEvents';
 import { useSocketOnListener } from 'components/DemoOnePage/hooks';
@@ -19,10 +19,12 @@ export function NoGamesMessage() {
 
 function getGameStatus(ruleState: string): string {
   switch(ruleState) {
+    case PLAYERS_READY:
+      return "ready...";
     case WAITING_FOR_PLAYERS:
-      return 'waiting...';
+      return "waiting...";
     default:
-      throw new Error('Invalid game rule state.');
+      throw new Error("Invalid game rule state.");
   }
 }
 
