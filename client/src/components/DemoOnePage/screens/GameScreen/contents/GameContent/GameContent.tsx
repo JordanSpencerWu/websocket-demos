@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { selectUserName, selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
+import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/contants/rulesStates';
 import { DELETE_GAME_EVENT, PLAYER_JOINED_GAME_EVENT, PLAYER_LEFT_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { useJoinChannel, useSocketOnListener } from 'components/DemoOnePage/hooks';
