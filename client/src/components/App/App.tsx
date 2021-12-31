@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import AppLayout from 'components/AppLayout';
-import WelcomePage from 'components/WelcomePage';
+import WelcomePage from 'components/pages/WelcomePage';
 import NoMatchPage from 'components/NoMatchPage';
 import DemoOnePage from 'components/DemoOnePage';
 
