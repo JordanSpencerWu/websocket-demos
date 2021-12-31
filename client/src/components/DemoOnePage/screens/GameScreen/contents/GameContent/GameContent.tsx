@@ -3,11 +3,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/contants/rulesStates';
+import {
+  PLAYER1_TURN,
+  PLAYER2_TURN,
+  PLAYERS_READY,
+  WAITING_FOR_PLAYERS,
+} from 'components/DemoOnePage/contants/rulesStates';
 import {
   DELETE_GAME_EVENT,
   PLAYER_JOINED_GAME_EVENT,
   PLAYER_LEFT_GAME_EVENT,
+  PLAYER_READY_EVENT,
 } from 'components/DemoOnePage/contants/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { useJoinChannel, useSocketOnListener } from 'components/DemoOnePage/hooks';
@@ -25,6 +31,9 @@ function renderGameState(game: any) {
   const { rules } = game;
 
   switch (rules.state) {
+    case PLAYER1_TURN:
+    case PLAYER2_TURN:
+      return <div>TODO: ADD GAME</div>;
     case PLAYERS_READY:
       return <PlayersReadyState game={game} />;
     case WAITING_FOR_PLAYERS:
@@ -57,6 +66,12 @@ function GameContent() {
   };
 
   useSocketOnListener(gameRoomChannelTopic, PLAYER_LEFT_GAME_EVENT, handleOnPlayerLeft);
+
+  const handleOnPlayerReady = (payload: object) => {
+    dispatch(updateGame(payload));
+  };
+
+  useSocketOnListener(gameRoomChannelTopic, PLAYER_READY_EVENT, handleOnPlayerReady);
 
   useEffect(() => {
     if (!game) {

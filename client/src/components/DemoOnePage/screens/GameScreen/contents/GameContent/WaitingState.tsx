@@ -10,24 +10,11 @@ import {
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { findChannelTopic, getGameRoomChannel } from 'components/DemoOnePage/contants/channels';
 
+import PlayersStatus from './PlayersStatus';
+
 type Props = {
   game: any;
 };
-
-export function playerName(name: string | null, currentUserName: string) {
-  const isYou = name == currentUserName;
-
-  let playerName = 'TBA';
-  if (name) {
-    playerName = name;
-  }
-
-  if (playerName && isYou) {
-    playerName += ' (You)';
-  }
-
-  return playerName;
-}
 
 function WaitingState(props: Props) {
   const { game } = props;
@@ -74,8 +61,7 @@ function WaitingState(props: Props) {
     <div className="flex flex-col text-center">
       <h1 className="text-4xl">{gameName}</h1>
       <p>{message}</p>
-      <p>Player 1: {playerName(player1.name, userName)}</p>
-      <p>Player 2: {playerName(player2.name, userName)}</p>
+      <PlayersStatus game={game} userName={userName} />
       <button
         className="mt-8 border border-green-gecko rounded"
         onClick={debounce(handleButtonClick, 200)}

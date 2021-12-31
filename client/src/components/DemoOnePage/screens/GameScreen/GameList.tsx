@@ -8,7 +8,12 @@ import {
   addGame,
   removeGame,
 } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/contants/rulesStates';
+import {
+  PLAYER1_TURN,
+  PLAYER2_TURN,
+  PLAYERS_READY,
+  WAITING_FOR_PLAYERS,
+} from 'components/DemoOnePage/contants/rulesStates';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
 import {
   GAME_CREATED_EVENT,
@@ -30,6 +35,9 @@ export function NoGamesMessage() {
 
 function getGameStatus(ruleState: string): string {
   switch (ruleState) {
+    case PLAYER1_TURN:
+    case PLAYER2_TURN:
+      return 'in progress...';
     case PLAYERS_READY:
       return 'ready...';
     case WAITING_FOR_PLAYERS:

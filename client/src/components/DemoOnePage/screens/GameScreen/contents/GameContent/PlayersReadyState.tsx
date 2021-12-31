@@ -11,7 +11,7 @@ import {
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { findChannelTopic, getGameRoomChannel } from 'components/DemoOnePage/contants/channels';
 
-import { playerName } from './WaitingState';
+import PlayersStatus from './PlayersStatus';
 
 type Props = {
   game: any;
@@ -25,10 +25,13 @@ function PlayersReadyState(props: Props) {
 
   const { player1, player2, rules, game_name: gameName } = game;
 
-  const message = 'Waiting for players to be ready';
   const isInGame = player1.name == userName || player2.name == userName;
+  const youAreReady =
+    (rules.player1 == 'ready' && player1.name == userName) ||
+    (rules.player2 == 'ready' && player2.name == userName);
+  const aPlayerIsReady = rules.player1 == 'ready' || rules.player2 == 'ready';
   const readyButtonClass = classNames('mt-8 border border-green-gecko rounded', {
-    invisible: !isInGame,
+    invisible: !isInGame || youAreReady,
   });
   const leaveButtonClass = classNames('mt-4 border border-green-gecko rounded', {
     invisible: !isInGame,
@@ -63,12 +66,19 @@ function PlayersReadyState(props: Props) {
     }
   }
 
+  let message = 'Waiting for both players to be ready';
+  if (aPlayerIsReady) {
+    message = 'Waiting for you to be ready';
+  }
+  if (youAreReady) {
+    message = 'Waiting for other player to be ready';
+  }
+
   return (
     <div className="flex flex-col text-center">
       <h1 className="text-4xl">{gameName}</h1>
       <p>{message}</p>
-      <p>Player 1: {playerName(player1.name, userName)}</p>
-      <p>Player 2: {playerName(player2.name, userName)}</p>
+      <PlayersStatus game={game} userName={userName} />
       <button className={readyButtonClass} onClick={debounce(handleReadyButtonClick, 200)}>
         Ready
       </button>

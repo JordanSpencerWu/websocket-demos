@@ -8,3 +8,4 @@ export const GAME_CREATED_EVENT = 'game_created';
 export const GAME_DELETED_EVENT = 'game_deleted';
 export const PLAYER_JOINED_GAME_EVENT = 'player_joined_game';
 export const PLAYER_LEFT_GAME_EVENT = 'player_left_game';
+export const PLAYER_READY_EVENT = 'player_ready';
