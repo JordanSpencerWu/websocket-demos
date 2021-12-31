@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 
 import { useAppSelector } from 'components/DemoOnePage/app/hooks';
 import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { PLAYER_JOIN_GAME_EVENT, PLAYER_LEAVE_GAME_EVENT } from 'components/DemoOnePage/channelEvents';
+import { PLAYER_JOIN_GAME_EVENT, PLAYER_LEAVE_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { findChannelTopic, getGameRoomChannel } from 'components/DemoOnePage/channels';
 

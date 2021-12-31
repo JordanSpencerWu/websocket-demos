@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks
 import { selectGames, addGame, removeGame } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/rulesStates';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
-import { GAME_CREATED_EVENT, GAME_DELETED_EVENT } from 'components/DemoOnePage/channelEvents';
+import { GAME_CREATED_EVENT, GAME_DELETED_EVENT } from 'components/DemoOnePage/contants/channelEvents';
 import { useSocketOnListener } from 'components/DemoOnePage/hooks';
 import pathTo from 'utils/pathTo';
 
