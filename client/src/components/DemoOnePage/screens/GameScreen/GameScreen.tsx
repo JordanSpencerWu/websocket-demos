@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
 import { useJoinChannel } from 'components/DemoOnePage/hooks';
 import service from 'services/service';
 

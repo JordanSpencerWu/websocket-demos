@@ -6,7 +6,7 @@ import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
 import { CREATE_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/channels';
+import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
 
 
 function CreateGameContent() {

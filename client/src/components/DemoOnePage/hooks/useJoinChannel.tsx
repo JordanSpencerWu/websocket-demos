@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic } from 'components/DemoOnePage/channels';
+import { findChannelTopic } from 'components/DemoOnePage/contants/channels';
 
 function useJoinChannel(channelTopic: string) {
   const socket = useContext(SocketContext);

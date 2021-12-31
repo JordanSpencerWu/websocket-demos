@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic, findChannelListenEvent } from 'components/DemoOnePage/channels';
+import { findChannelTopic, findChannelListenEvent } from 'components/DemoOnePage/contants/channels';
 
 function useSocketOnListener(channelTopic: string, event: string, callback: (payload: any) => void) {
   const socket = useContext(SocketContext);
