@@ -3,6 +3,9 @@ import React from 'react';
 import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
 
+/**
+ * Welcome screen component displays a welcome message.
+ */
 function WelcomeScreen() {
   return (
     <section className="flex flex-col justify-center items-center w-full">

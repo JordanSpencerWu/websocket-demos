@@ -19,6 +19,9 @@ function renderScreen(screen: string) {
   }
 }
 
+/**
+ * Demo 1 page component renders a game using phoenix channels.
+ */
 function DemoOnePage() {
   let { screen } = useParams();
   const userName = useAppSelector(selectUserName);

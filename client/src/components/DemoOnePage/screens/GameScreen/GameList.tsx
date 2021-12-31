@@ -47,6 +47,9 @@ function getGameStatus(ruleState: string): string {
   }
 }
 
+/**
+ * Game list component renders a list of games.
+ */
 function GameList() {
   const games = useAppSelector(selectGames);
   const { gameName } = useParams();

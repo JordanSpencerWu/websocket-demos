@@ -5,21 +5,9 @@ type Props = {
   userName: string;
 };
 
-export function getPlayerStatus(name: string | null, currentUserName: string) {
-  const isYou = name == currentUserName;
-
-  let playerName = 'TBA';
-  if (name) {
-    playerName = name;
-  }
-
-  if (playerName && isYou) {
-    playerName += ' (You)';
-  }
-
-  return playerName;
-}
-
+/**
+ * Players status component displays the status of each player.
+ */
 function PlayersStatus(props: Props) {
   const { game, userName } = props;
 

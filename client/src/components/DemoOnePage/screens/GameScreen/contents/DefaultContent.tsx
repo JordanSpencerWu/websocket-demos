@@ -5,6 +5,9 @@ import { selectGames } from 'components/DemoOnePage/app/features/game/gameSlice'
 
 import { NoGamesMessage } from '../GameList';
 
+/**
+ * Default content component displays the default content.
+ */
 function DefaultContent() {
   const games = useAppSelector(selectGames);
 

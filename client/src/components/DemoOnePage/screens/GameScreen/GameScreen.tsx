@@ -25,6 +25,9 @@ function renderContent(screen: string) {
   }
 }
 
+/**
+ * Game screen component displays a list of games and the game content.
+ */
 function GameScreen() {
   const [loading, setLoading] = useState(true);
   let { screen: contentScreen, gameName } = useParams();

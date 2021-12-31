@@ -43,6 +43,9 @@ function renderGameState(game: any) {
   }
 }
 
+/**
+ * Game content component determines what content to show.
+ */
 function GameContent() {
   const socket = useContext(SocketContext);
   const dispatch = useAppDispatch();

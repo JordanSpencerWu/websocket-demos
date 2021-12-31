@@ -17,6 +17,9 @@ type Props = {
   game: any;
 };
 
+/**
+ * Players ready state component displays the ready state of the players.
+ */
 function PlayersReadyState(props: Props) {
   const { game } = props;
 

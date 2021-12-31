@@ -8,6 +8,9 @@ import { setUserName, setToken } from 'components/DemoOnePage/app/features/game/
 import pathTo from 'utils/pathTo';
 import service from 'services/service';
 
+/**
+ * Sign in screen component displays a form to sign in as a user.
+ */
 function SignInScreen() {
   const [name, setName] = useState('');
   const navigate = useNavigate();

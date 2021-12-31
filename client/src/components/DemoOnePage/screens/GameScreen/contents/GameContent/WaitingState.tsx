@@ -16,6 +16,9 @@ type Props = {
   game: any;
 };
 
+/**
+ * Waiting state component displays the waiting state of the players.
+ */
 function WaitingState(props: Props) {
   const { game } = props;
 

@@ -9,6 +9,10 @@ type Props = {
   to?: string;
 };
 
+/**
+ * Button component renders the react router Link if to props is present,
+ * otherwise renders an anchor element.
+ */
 function Button(props: Props) {
   const { children, to, className: passedClassName = '', ...rest } = props;
 

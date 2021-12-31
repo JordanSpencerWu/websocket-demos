@@ -8,6 +8,9 @@ import { CREATE_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
 import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
 
+/**
+ * Create game content component displays form to create a new game.
+ */
 function CreateGameContent() {
   const [gameName, setGameName] = useState('');
   const navigate = useNavigate();
