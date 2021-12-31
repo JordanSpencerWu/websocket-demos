@@ -77,6 +77,9 @@ defmodule ServerWeb.GameRoomChannel do
 
       {:error, _} ->
         {:reply, {:error, "failed to join game"}, socket}
+
+      _error ->
+        {:reply, {:error, "failed to join game"}, socket}
     end
   end
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
+import { useAppDispatch, useAppSelector } from 'components/DemoOnePage/app/hooks';
+import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
 import { useJoinChannel } from 'components/DemoOnePage/hooks';
@@ -28,6 +29,7 @@ function GameScreen() {
   const [loading, setLoading] = useState(true);
   let { screen: contentScreen, gameName } = useParams();
   const dispatch = useAppDispatch();
+  const userName = useAppSelector(selectUserName);
 
   if (gameName) {
     contentScreen = GAME_CONTENT;
@@ -50,10 +52,15 @@ function GameScreen() {
     return null;
   }
 
+  const userNameText = `username: ${userName}`;
+
   return (
     <div className="w-full flex">
       <GameList />
-      {renderContent(contentScreen)}
+      <div className="relative flex flex-grow">
+        <span className="absolute top-0 left-0 ml-1">{userNameText}</span>
+        {renderContent(contentScreen)}
+      </div>
     </div>
   )
 }

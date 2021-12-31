@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { selectUserName, selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
 import { PLAYERS_READY, WAITING_FOR_PLAYERS } from 'components/DemoOnePage/contants/rulesStates';
 import { DELETE_GAME_EVENT, PLAYER_JOINED_GAME_EVENT, PLAYER_LEFT_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents';
 import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
@@ -31,10 +31,8 @@ function GameContent() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { gameName } = useParams();
-  const userName = useAppSelector(selectUserName);
   const games = useAppSelector(selectGames);
 
-  const userNameText = `username: ${userName}`;
   const game = games.find(game => game.game_name == gameName);
   const gameRoomChannelTopic = getGameRoomChannel(gameName);
 
@@ -75,7 +73,6 @@ function GameContent() {
 
   return (
     <div className="relative flex-grow flex justify-center items-center">
-      <span className="absolute top-0 left-0 ml-1">{userNameText}</span>
       <button className="absolute top-0 right-0 mr-1 text-xl" onClick={handleCloseButtonClick}>x</button>
       {game && renderGameState(game)}
     </div>
