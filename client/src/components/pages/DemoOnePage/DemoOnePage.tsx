@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSlice';
-import SocketProvider from 'components/DemoOnePage/providers/SocketProvider';
+import { useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
+import { selectUserName } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
+import SocketProvider from 'components/pages/DemoOnePage/providers/SocketProvider';
 
 import GameScreen from './screens/GameScreen';
 import { SignInScreen, WelcomeScreen, SIGN_IN_SCREEN, WELCOME_SCREEN } from './screens';

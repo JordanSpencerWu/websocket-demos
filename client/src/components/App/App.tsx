@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import AppLayout from 'components/AppLayout';
 import WelcomePage from 'components/pages/WelcomePage';
 import NoMatchPage from 'components/pages/NoMatchPage';
-import DemoOnePage from 'components/DemoOnePage';
+import DemoOnePage from 'components/pages/DemoOnePage';
 
 /**
  * Application component that defines the routes.

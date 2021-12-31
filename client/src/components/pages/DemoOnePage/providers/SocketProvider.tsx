@@ -1,8 +1,8 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { Socket } from 'phoenix';
 
-import { useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectToken } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
+import { selectToken } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 
 export const WS_URL = 'ws://localhost:4000/socket';
 

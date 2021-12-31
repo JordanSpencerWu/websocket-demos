@@ -4,9 +4,12 @@ import classnames from 'classnames';
 
 import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
-import { CREATE_GAME_EVENT } from 'components/DemoOnePage/contants/channelEvents';
-import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { findChannelTopic, GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
+import { CREATE_GAME_EVENT } from 'components/pages/DemoOnePage/contants/channelEvents';
+import { SocketContext } from 'components/pages/DemoOnePage/providers/SocketProvider';
+import {
+  findChannelTopic,
+  GAME_LOBBY_CHANNEL,
+} from 'components/pages/DemoOnePage/contants/channels';
 
 /**
  * Create game content component displays form to create a new game.

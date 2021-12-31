@@ -1,4 +1,4 @@
-import { CREATE_GAME_CONTENT, SIGN_IN_SCREEN } from 'components/DemoOnePage/screens/index';
+import { CREATE_GAME_CONTENT, SIGN_IN_SCREEN } from 'components/pages/DemoOnePage/screens/index';
 
 export default {
   home: '/',

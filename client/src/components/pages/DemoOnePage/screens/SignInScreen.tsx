@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import classnames from 'classnames';
 
 import Button from 'components/Button';
-import { useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { setUserName, setToken } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { useAppDispatch } from 'components/pages/DemoOnePage/app/hooks';
+import { setUserName, setToken } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 import pathTo from 'utils/pathTo';
 import service from 'services/service';
 

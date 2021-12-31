@@ -1,27 +1,27 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
-import { selectGames, updateGame } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { useAppSelector, useAppDispatch } from 'components/pages/DemoOnePage/app/hooks';
+import { selectGames, updateGame } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 import {
   PLAYER1_TURN,
   PLAYER2_TURN,
   PLAYERS_READY,
   WAITING_FOR_PLAYERS,
-} from 'components/DemoOnePage/contants/rulesStates';
+} from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
   DELETE_GAME_EVENT,
   PLAYER_JOINED_GAME_EVENT,
   PLAYER_LEFT_GAME_EVENT,
   PLAYER_READY_EVENT,
-} from 'components/DemoOnePage/contants/channelEvents';
-import { SocketContext } from 'components/DemoOnePage/providers/SocketProvider';
-import { useJoinChannel, useSocketOnListener } from 'components/DemoOnePage/hooks';
+} from 'components/pages/DemoOnePage/contants/channelEvents';
+import { SocketContext } from 'components/pages/DemoOnePage/providers/SocketProvider';
+import { useJoinChannel, useSocketOnListener } from 'components/pages/DemoOnePage/hooks';
 import {
   findChannelTopic,
   GAME_LOBBY_CHANNEL,
   getGameRoomChannel,
-} from 'components/DemoOnePage/contants/channels';
+} from 'components/pages/DemoOnePage/contants/channels';
 import pathTo from 'utils/pathTo';
 
 import WaitingState from './WaitingState';

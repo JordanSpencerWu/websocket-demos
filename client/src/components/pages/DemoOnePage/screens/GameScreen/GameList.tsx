@@ -2,24 +2,24 @@ import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { useAppSelector, useAppDispatch } from 'components/DemoOnePage/app/hooks';
+import { useAppSelector, useAppDispatch } from 'components/pages/DemoOnePage/app/hooks';
 import {
   selectGames,
   addGame,
   removeGame,
-} from 'components/DemoOnePage/app/features/game/gameSlice';
+} from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 import {
   PLAYER1_TURN,
   PLAYER2_TURN,
   PLAYERS_READY,
   WAITING_FOR_PLAYERS,
-} from 'components/DemoOnePage/contants/rulesStates';
-import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
+} from 'components/pages/DemoOnePage/contants/rulesStates';
+import { GAME_LOBBY_CHANNEL } from 'components/pages/DemoOnePage/contants/channels';
 import {
   GAME_CREATED_EVENT,
   GAME_DELETED_EVENT,
-} from 'components/DemoOnePage/contants/channelEvents';
-import { useSocketOnListener } from 'components/DemoOnePage/hooks';
+} from 'components/pages/DemoOnePage/contants/channelEvents';
+import { useSocketOnListener } from 'components/pages/DemoOnePage/hooks';
 import pathTo from 'utils/pathTo';
 
 export function NoGamesMessage() {

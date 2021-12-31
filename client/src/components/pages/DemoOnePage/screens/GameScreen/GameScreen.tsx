@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectUserName } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { setGames } from 'components/DemoOnePage/app/features/game/gameSlice';
-import { GAME_LOBBY_CHANNEL } from 'components/DemoOnePage/contants/channels';
-import { useJoinChannel } from 'components/DemoOnePage/hooks';
+import { useAppDispatch, useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
+import { selectUserName } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
+import { setGames } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
+import { GAME_LOBBY_CHANNEL } from 'components/pages/DemoOnePage/contants/channels';
+import { useJoinChannel } from 'components/pages/DemoOnePage/hooks';
 import service from 'services/service';
 
 import DefaultContent from './contents/DefaultContent';

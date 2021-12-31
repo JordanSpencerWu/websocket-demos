@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from 'components/App';
-import store from 'components/DemoOnePage/app/store';
+import store from 'components/pages/DemoOnePage/app/store';
 
 import './style.css';
 

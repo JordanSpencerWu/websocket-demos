@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useAppSelector } from 'components/DemoOnePage/app/hooks';
-import { selectGames } from 'components/DemoOnePage/app/features/game/gameSlice';
+import { useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
+import { selectGames } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 
 import { NoGamesMessage } from '../GameList';
 
