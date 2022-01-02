@@ -29,7 +29,7 @@ function useSocketOnListener(
         channel.off(event, handleRef);
       }
     };
-  }, [socket]);
+  }, [socket, channelTopic]);
 }
 
 export default useSocketOnListener;

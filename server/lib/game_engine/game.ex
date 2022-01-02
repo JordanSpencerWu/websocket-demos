@@ -83,6 +83,7 @@ defmodule GameEngine.Game do
           [nil, nil, nil],
           [nil, nil, nil]
         ])
+        |> Map.put(:winner, nil)
 
       {:reply, :ok, state, @timeout}
     else

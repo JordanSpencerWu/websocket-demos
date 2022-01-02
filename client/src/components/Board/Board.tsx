@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 type Props = {
   board: any;
-  handleClick: (row: number, col: number) => void;
+  handleClick: (row: number, col: number, value: string) => void;
   isYourTurn: boolean;
 };
 
@@ -49,7 +49,7 @@ function Board(props: Props) {
         const [row, col] = getRowColumn(index);
 
         return (
-          <div key={index} className={buttonClass} onClick={() => handleClick(row, col)}>
+          <div key={index} className={buttonClass} onClick={() => handleClick(row, col, value)}>
             {value}
           </div>
         );

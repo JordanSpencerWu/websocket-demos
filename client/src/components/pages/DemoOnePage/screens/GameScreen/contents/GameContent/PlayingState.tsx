@@ -23,11 +23,11 @@ type Props = {
 
 function getWinMessage(winner: string, youArePlayer1: boolean) {
   if ((winner == PLAYER1 && youArePlayer1) || (winner == PLAYER2 && !youArePlayer1)) {
-    return 'You won!';
+    return 'You won';
   } else if (winner == TIE) {
-    return "It's a tie.";
+    return "It's a tie";
   } else {
-    return 'You lost.';
+    return 'You lost';
   }
 }
 
@@ -52,8 +52,8 @@ function PlayingState(props: Props) {
     }
   }
 
-  function handleBoardClick(row: number, column: number) {
-    if (!isYourTurn) {
+  function handleBoardClick(row: number, column: number, value: string) {
+    if (!isYourTurn || value) {
       return;
     }
 
