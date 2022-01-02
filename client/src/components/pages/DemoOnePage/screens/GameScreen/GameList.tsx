@@ -9,6 +9,7 @@ import {
   removeGame,
 } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 import {
+  GAME_OVER,
   PLAYER1_TURN,
   PLAYER2_TURN,
   PLAYERS_READY,
@@ -35,6 +36,8 @@ export function NoGamesMessage() {
 
 function getGameStatus(ruleState: string): string {
   switch (ruleState) {
+    case GAME_OVER:
+      return 'game over...';
     case PLAYER1_TURN:
     case PLAYER2_TURN:
       return 'in progress...';

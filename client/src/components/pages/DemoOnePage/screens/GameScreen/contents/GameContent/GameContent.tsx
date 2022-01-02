@@ -12,6 +12,7 @@ import { useJoinChannel, useSocketOnListener } from 'components/pages/DemoOnePag
 import pathTo from 'utils/pathTo';
 import service from 'services/service';
 import {
+  GAME_OVER,
   PLAYER1_TURN,
   PLAYER2_TURN,
   PLAYERS_READY,
@@ -35,6 +36,7 @@ function renderGameState(game: any, gameRoomChannel: any, userName: string) {
   const { rules } = game;
 
   switch (rules.state) {
+    case GAME_OVER:
     case PLAYER1_TURN:
     case PLAYER2_TURN:
       return <PlayingState game={game} gameRoomChannel={gameRoomChannel} userName={userName} />;

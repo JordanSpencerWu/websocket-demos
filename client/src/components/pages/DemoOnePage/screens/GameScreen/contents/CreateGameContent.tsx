@@ -26,7 +26,6 @@ function CreateGameContent() {
   });
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent): void {
-    console.log('called');
     event.preventDefault();
 
     const channels = socket == null ? [] : socket.channels;

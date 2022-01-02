@@ -66,6 +66,10 @@ defmodule GameEngine.Rules do
     end
   end
 
+  def check(rules, {:check_tie, _check_tie?}) do
+    {:ok, rules}
+  end
+
   def check(_state, _action), do: :error
 
   defp random_player_turn do
