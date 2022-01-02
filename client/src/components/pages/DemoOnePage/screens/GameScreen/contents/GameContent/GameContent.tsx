@@ -19,9 +19,7 @@ import {
 } from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
   DELETE_GAME_EVENT,
-  PLAYER_JOINED_GAME_EVENT,
-  PLAYER_LEFT_GAME_EVENT,
-  PLAYER_READY_EVENT,
+  UPDATE_GAME_EVENT,
 } from 'components/pages/DemoOnePage/contants/channelEvents';
 import {
   findChannelTopic,
@@ -73,27 +71,14 @@ function GameContent() {
       .then((response: Response) => response.json())
       .then((game) => dispatch(updateGame(game)));
   }, [gameName]);
-  console.log(game);
 
   useJoinChannel(gameRoomChannelTopic);
 
-  const handleOnPlayerJoined = (payload: object) => {
+  const handleOnGameUpdate = (payload: object) => {
     dispatch(updateGame(payload));
   };
 
-  useSocketOnListener(gameRoomChannelTopic, PLAYER_JOINED_GAME_EVENT, handleOnPlayerJoined);
-
-  const handleOnPlayerLeft = (payload: object) => {
-    dispatch(updateGame(payload));
-  };
-
-  useSocketOnListener(gameRoomChannelTopic, PLAYER_LEFT_GAME_EVENT, handleOnPlayerLeft);
-
-  const handleOnPlayerReady = (payload: object) => {
-    dispatch(updateGame(payload));
-  };
-
-  useSocketOnListener(gameRoomChannelTopic, PLAYER_READY_EVENT, handleOnPlayerReady);
+  useSocketOnListener(gameRoomChannelTopic, UPDATE_GAME_EVENT, handleOnGameUpdate);
 
   useEffect(() => {
     if (!game) {
@@ -121,7 +106,7 @@ function GameContent() {
 
   return (
     <div className="relative flex-grow flex justify-center items-center">
-      <button className="absolute top-0 right-0 mr-1 text-xl" onClick={handleCloseButtonClick}>
+      <button className="absolute top-0 right-0 mr-1 text-xl p-1" onClick={handleCloseButtonClick}>
         x
       </button>
       {game && renderGameState(game, gameRoomChannel, userName)}

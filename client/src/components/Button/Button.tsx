@@ -6,6 +6,7 @@ type Props = {
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
+  type: string;
   to?: string;
 };
 

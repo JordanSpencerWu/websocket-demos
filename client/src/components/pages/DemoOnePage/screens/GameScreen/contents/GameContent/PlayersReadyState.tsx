@@ -49,7 +49,7 @@ function PlayersReadyState(props: Props) {
         alert('Failed to be ready for game.');
       });
     } else {
-      alert('Not connected to game lobby channel.');
+      alert('Not connected to game room channel.');
     }
   }
 
@@ -61,7 +61,7 @@ function PlayersReadyState(props: Props) {
         alert('Failed to leave game.');
       });
     } else {
-      alert('Not connected to game lobby channel.');
+      alert('Not connected to game room channel.');
     }
   }
 

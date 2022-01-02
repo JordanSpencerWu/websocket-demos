@@ -6,15 +6,14 @@ defmodule ServerWeb.GameRoomChannel do
 
   @create_game_event "create_game"
   @delete_game_event "delete_game"
-  @player_is_ready "player_is_ready"
-  @player_join_game "player_join_game"
-  @player_leave_game "player_leave_game"
+  @player_is_ready_event "player_is_ready"
+  @player_join_game_event "player_join_game"
+  @player_leave_game_event "player_leave_game"
+  @player_pick_event "player_pick"
 
   @game_created_event "game_created"
   @game_deleted_event "game_deleted"
-  @player_joined_game "player_joined_game"
-  @player_left_game "player_left_game"
-  @player_ready_event "player_ready"
+  @update_game_event "update_game"
 
   @impl true
   def join("game_room:lobby", _payload, socket) do
@@ -63,7 +62,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_join_game, player, socket) do
+  def handle_in(@player_join_game_event, player, socket) do
     game_name = socket.assigns.game_name
     player_name = socket.assigns.user_name
     player = String.to_existing_atom(player)
@@ -73,7 +72,7 @@ defmodule ServerWeb.GameRoomChannel do
     case result do
       :ok ->
         game = Game.state(game_name)
-        broadcast!(socket, @player_joined_game, game)
+        broadcast!(socket, @update_game_event, game)
 
         {:reply, :ok, socket}
 
@@ -83,7 +82,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_leave_game, player, socket) do
+  def handle_in(@player_leave_game_event, player, socket) do
     game_name = socket.assigns.game_name
     player = String.to_existing_atom(player)
 
@@ -92,7 +91,7 @@ defmodule ServerWeb.GameRoomChannel do
     case result do
       :ok ->
         game = Game.state(game_name)
-        broadcast!(socket, @player_left_game, game)
+        broadcast!(socket, @update_game_event, game)
 
         {:reply, :ok, socket}
 
@@ -102,7 +101,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_is_ready, player, socket) do
+  def handle_in(@player_is_ready_event, player, socket) do
     game_name = socket.assigns.game_name
     player = String.to_existing_atom(player)
 
@@ -111,7 +110,26 @@ defmodule ServerWeb.GameRoomChannel do
     case result do
       :ok ->
         game = Game.state(game_name)
-        broadcast!(socket, @player_ready_event, game)
+        broadcast!(socket, @update_game_event, game)
+
+        {:reply, :ok, socket}
+
+      _error ->
+        {:reply, {:error, "failed to join game"}, socket}
+    end
+  end
+
+    @impl true
+  def handle_in(@player_pick_event, %{"row" => row, "column" => column, "player" => player}, socket) do
+    game_name = socket.assigns.game_name
+    player = String.to_existing_atom(player)
+
+    result = Game.player_pick(game_name, player, row, column)
+
+    case result do
+      :ok ->
+        game = Game.state(game_name)
+        broadcast!(socket, @update_game_event, game)
 
         {:reply, :ok, socket}
 

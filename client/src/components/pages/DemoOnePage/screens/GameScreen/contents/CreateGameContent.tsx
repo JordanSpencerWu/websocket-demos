@@ -26,6 +26,7 @@ function CreateGameContent() {
   });
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent): void {
+    console.log('called');
     event.preventDefault();
 
     const channels = socket == null ? [] : socket.channels;
@@ -54,9 +55,9 @@ function CreateGameContent() {
       className="flex-grow flex flex-col justify-center items-center relative"
       onSubmit={handleSubmit}
     >
-      <button className="absolute top-0 right-0 mr-2 text-lg" onClick={handleClose}>
+      <a className="absolute top-0 right-0 mr-2 text-lg p-1 cursor-pointer" onClick={handleClose}>
         x
-      </button>
+      </a>
       <label className="text-2xl mb-2">Create Game</label>
       <input
         value={gameName}
@@ -65,7 +66,7 @@ function CreateGameContent() {
         type="text"
         autoFocus
       />
-      <Button className={buttonClass} onClick={handleSubmit}>
+      <Button type="submit" className={buttonClass} onClick={handleSubmit}>
         Create
       </Button>
     </form>

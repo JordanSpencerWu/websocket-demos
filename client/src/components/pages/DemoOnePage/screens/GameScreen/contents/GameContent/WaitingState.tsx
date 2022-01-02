@@ -49,7 +49,7 @@ function WaitingState(props: Props) {
     }
 
     if (!gameRoomChannel) {
-      alert('Not connected to game lobby channel.');
+      alert('Not connected to game room channel.');
     }
   }
 
