@@ -10,6 +10,7 @@ import {
   TIE,
 } from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
+  PLAYER_PLAY_AGAIN_EVENT,
   PLAYER_LEAVE_GAME_EVENT,
   PLAYER_PICK_EVENT,
 } from 'components/pages/DemoOnePage/contants/channelEvents';
@@ -68,6 +69,14 @@ function PlayingState(props: Props) {
     }
   }
 
+  function handlePlayAgainClick() {
+    if (gameRoomChannel) {
+      gameRoomChannel.push(PLAYER_PLAY_AGAIN_EVENT, player).receive('error', () => {
+        alert('Failed to play again.');
+      });
+    }
+  }
+
   const isInGame = player1.name == userName || player2.name == userName;
   const youArePlayer1 = player1.name == userName;
   const yourValue = youArePlayer1 ? 'X' : 'O';
@@ -80,7 +89,7 @@ function PlayingState(props: Props) {
     message = rules.state == PLAYER1_TURN ? `${player1.name}'s turn` : `${player2.name}'s turn`;
   }
 
-  const leaveButtonClass = classNames('w-1/4 mt-8 border border-green-gecko rounded', {
+  const buttonClass = classNames('w-1/4 mt-8 border border-green-gecko rounded', {
     invisible: !isInGame,
   });
 
@@ -92,7 +101,12 @@ function PlayingState(props: Props) {
       {winner ? <p>{winMessage}</p> : <p className="">{message}</p>}
       <p className="mb-4">{`You're value: ${yourValue}`}</p>
       <Board board={gameBoard} handleClick={handleBoardClick} isYourTurn={isYourTurn} />
-      <button className={leaveButtonClass} onClick={debounce(handleLeaveButtonClick, 200)}>
+      {winner && (
+        <button className={buttonClass} onClick={debounce(handlePlayAgainClick, 200)}>
+          Play Agin
+        </button>
+      )}
+      <button className={buttonClass} onClick={debounce(handleLeaveButtonClick, 200)}>
         Leave
       </button>
     </div>

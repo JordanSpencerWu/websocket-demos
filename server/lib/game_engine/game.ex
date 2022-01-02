@@ -67,6 +67,12 @@ defmodule GameEngine.Game do
     GenServer.call(pid, {player, row, col})
   end
 
+  def player_play_again(game_name, player) when player in @players do
+    [{pid, nil}] = Registry.lookup(GameRegistry, game_name)
+
+    GenServer.call(pid, {:player_play_again, player})
+  end
+
   def handle_call(:state, _from, state) do
     {:reply, state, state, @timeout}
   end
@@ -154,6 +160,25 @@ defmodule GameEngine.Game do
       else
         {:reply, :ok, state, @timeout}
       end
+    else
+      _error -> {:reply, :error, state, @timeout}
+    end
+  end
+
+  def handle_call({:player_play_again, player}, _from, state) do
+    with {:ok, rules} <- Rules.check(state.rules, {player, :play_again}) do
+      state =
+        state
+        |> update_rules(rules)
+        |> update_board(Board.new())
+        |> update_game_board([
+          [nil, nil, nil],
+          [nil, nil, nil],
+          [nil, nil, nil]
+        ])
+        |> Map.put(:winner, nil)
+
+      {:reply, :ok, state, @timeout}
     else
       _error -> {:reply, :error, state, @timeout}
     end

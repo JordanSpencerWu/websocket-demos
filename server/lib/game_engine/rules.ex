@@ -14,9 +14,24 @@ defmodule GameEngine.Rules do
     rules = Map.put(rules, player, :not_joined)
     other_player = if player == :player1, do: :player2, else: :player1
 
-    rules = if Map.get(rules, other_player) == :ready, do: Map.put(rules, other_player, :joined), else: rules
+    rules =
+      if Map.get(rules, other_player) == :ready,
+        do: Map.put(rules, other_player, :joined),
+        else: rules
 
     {:ok, %Rules{rules | state: :waiting_for_players}}
+  end
+
+  def check(rules, {player, :play_again}) when player in @players do
+    rules = Map.put(rules, player, :ready)
+    other_player = if player == :player1, do: :player2, else: :player1
+
+    rules =
+      if Map.get(rules, other_player) == :ready,
+        do: Map.put(rules, other_player, :joined),
+        else: rules
+
+    {:ok, %Rules{rules | state: :players_ready}}
   end
 
   def check(%Rules{state: :waiting_for_players} = rules, {player, :joined})
