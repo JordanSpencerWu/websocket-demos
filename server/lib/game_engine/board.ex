@@ -80,4 +80,17 @@ defmodule GameEngine.Board do
   def check_win?(coordinates) do
     Enum.any?(@win_conditions, &MapSet.subset?(&1, coordinates))
   end
+
+  def check_tie?(board, check_win?) do
+    all_coordinates =
+      board.x_coordinates
+      |> MapSet.union(board.o_coordinates)
+      |> MapSet.to_list()
+
+    if !check_win? and length(all_coordinates) == 9 do
+      true
+    else
+      false
+    end
+  end
 end

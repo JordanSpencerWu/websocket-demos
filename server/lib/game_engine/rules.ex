@@ -41,7 +41,12 @@ defmodule GameEngine.Rules do
     {:ok, %Rules{rules | state: :player2_turn}}
   end
 
-  def check(%Rules{state: :player1_turn} = rules, {:check_win, check_win?}) do
+  def check(%Rules{state: :player2_turn} = rules, {:player2, :pick}) do
+    {:ok, %Rules{rules | state: :player1_turn}}
+  end
+
+  def check(%Rules{state: state} = rules, {:check_win, check_win?})
+      when state in [:player1_turn, :player2_turn] do
     if check_win? do
       {:ok, %Rules{rules | state: :game_over}}
     else
@@ -49,12 +54,9 @@ defmodule GameEngine.Rules do
     end
   end
 
-  def check(%Rules{state: :player2_turn} = rules, {:player2, :pick}) do
-    {:ok, %Rules{rules | state: :player1_turn}}
-  end
-
-  def check(%Rules{state: :player2_turn} = rules, {:check_win, check_win?}) do
-    if check_win? do
+  def check(%Rules{state: state} = rules, {:check_tie, check_tie?})
+      when state in [:player1_turn, :player2_turn] do
+    if check_tie? do
       {:ok, %Rules{rules | state: :game_over}}
     else
       {:ok, rules}

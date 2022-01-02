@@ -3,6 +3,7 @@ defmodule GameEngine.Game do
 
   alias __MODULE__
   alias GameEngine.Board
+  alias GameEngine.Matrix
   alias GameEngine.Rules
   alias ServerWeb.Endpoint
 
@@ -13,10 +14,15 @@ defmodule GameEngine.Game do
   @timeout 1000 * 60 * 10
 
   @derive {Jason.Encoder, except: [:board]}
-  defstruct game_name: nil,
+  defstruct board: Board.new(),
+            game_board: [
+              [nil, nil, nil],
+              [nil, nil, nil],
+              [nil, nil, nil]
+            ],
+            game_name: nil,
             player1: %{name: nil},
             player2: %{name: nil},
-            board: Board.new(),
             rules: %Rules{},
             winner: nil
 
@@ -71,6 +77,12 @@ defmodule GameEngine.Game do
         state
         |> update_player_name(player, nil)
         |> update_rules(rules)
+        |> update_board(Board.new())
+        |> update_game_board([
+          [nil, nil, nil],
+          [nil, nil, nil],
+          [nil, nil, nil]
+        ])
 
       {:reply, :ok, state, @timeout}
     else
@@ -109,15 +121,32 @@ defmodule GameEngine.Game do
         :o_coordinates
       end
 
+    board_value =
+      if choice == :x_coordinates do
+        "x"
+      else
+        "o"
+      end
+
     with {:ok, rules} <- Rules.check(state.rules, {player, :pick}),
          {:ok, board} <- Board.pick(state.board, choice, row, col),
          coordinates = Map.get(board, choice),
          check_win? = Board.check_win?(coordinates),
-         {:ok, rules} = Rules.check(rules, {:check_win, check_win?}) do
+         {:ok, rules} = Rules.check(rules, {:check_win, check_win?}),
+         check_tie? = Board.check_tie?(board, check_win?),
+         {:ok, rules} = Rules.check(rules, {:check_tie, check_tie?}) do
+      game_board =
+        state.game_board
+        |> Matrix.from_list()
+        |> put_in([row, col], board_value)
+        |> Matrix.to_list()
+
       state =
         state
         |> update_rules(rules)
         |> update_board(board)
+        |> update_game_board(game_board)
+        |> update_winner(player, check_win?, check_tie?)
 
       if check_win? do
         {:reply, :ok, %{state | winner: player}, @timeout}
@@ -151,5 +180,21 @@ defmodule GameEngine.Game do
 
   defp update_board(state, board) do
     %{state | board: board}
+  end
+
+  defp update_game_board(state, game_board) do
+    %{state | game_board: game_board}
+  end
+
+  defp update_winner(state, player, true = _check_win?, _check_tie?) do
+    %{state | winner: player}
+  end
+
+  defp update_winner(state, _player, _check_win?, true = _check_tie?) do
+    %{state | winner: :tie}
+  end
+
+  defp update_winner(state, _player, _check_win?, _check_tie?) do
+    state
   end
 end
