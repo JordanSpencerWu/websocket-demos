@@ -1,52 +1,45 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import debounce from 'lodash.debounce';
 import classNames from 'classnames';
 
-import { useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
-import { selectUserName } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
+import {
+  PLAYER1,
+  PLAYER2,
+  PLAYER_IS_READY,
+} from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
   PLAYER_LEAVE_GAME_EVENT,
   PLAYER_IS_READY_EVENT,
 } from 'components/pages/DemoOnePage/contants/channelEvents';
-import { SocketContext } from 'components/pages/DemoOnePage/providers/SocketProvider';
-import {
-  findChannelTopic,
-  getGameRoomChannel,
-} from 'components/pages/DemoOnePage/contants/channels';
 
 import PlayersStatus from './PlayersStatus';
 
 type Props = {
   game: any;
+  gameRoomChannel: any;
+  userName: string;
 };
 
 /**
  * Players ready state component displays the ready state of the players.
  */
 function PlayersReadyState(props: Props) {
-  const { game } = props;
-
-  const userName = useAppSelector(selectUserName);
-  const socket = useContext(SocketContext);
+  const { game, gameRoomChannel, userName } = props;
 
   const { player1, player2, rules, game_name: gameName } = game;
 
   const isInGame = player1.name == userName || player2.name == userName;
   const youAreReady =
-    (rules.player1 == 'ready' && player1.name == userName) ||
-    (rules.player2 == 'ready' && player2.name == userName);
-  const aPlayerIsReady = rules.player1 == 'ready' || rules.player2 == 'ready';
+    (rules.player1 == PLAYER_IS_READY && player1.name == userName) ||
+    (rules.player2 == PLAYER_IS_READY && player2.name == userName);
+  const aPlayerIsReady = rules.player1 == PLAYER_IS_READY || rules.player2 == PLAYER_IS_READY;
   const readyButtonClass = classNames('mt-8 border border-green-gecko rounded', {
     invisible: !isInGame || youAreReady,
   });
   const leaveButtonClass = classNames('mt-4 border border-green-gecko rounded', {
     invisible: !isInGame,
   });
-
-  const channels = socket == null ? [] : socket.channels;
-  const gameRoomChannelTopic = getGameRoomChannel(gameName);
-  const gameRoomChannel = findChannelTopic(channels, gameRoomChannelTopic);
-  const player = player1.name == userName ? 'player1' : 'player2';
+  const player = player1.name == userName ? PLAYER1 : PLAYER2;
 
   function handleReadyButtonClick(event: React.MouseEvent): void {
     event.preventDefault();

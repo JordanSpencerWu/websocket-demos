@@ -22,7 +22,7 @@ function SignInScreen() {
     invisible: !showButton,
   });
 
-  function handleSubmit(event: React.MouseEvent): void {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent): void {
     event.preventDefault();
 
     service
@@ -38,7 +38,7 @@ function SignInScreen() {
   }
 
   return (
-    <form className="flex flex-col justify-center items-center w-full">
+    <form className="flex flex-col justify-center items-center w-full" onSubmit={handleSubmit}>
       <label className="text-2xl mb-2">Enter Username</label>
       <input
         value={name}

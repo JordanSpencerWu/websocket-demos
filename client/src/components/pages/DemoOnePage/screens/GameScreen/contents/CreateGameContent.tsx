@@ -25,7 +25,7 @@ function CreateGameContent() {
     invisible: !showButton,
   });
 
-  function handleSubmit(event: React.MouseEvent): void {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent): void {
     event.preventDefault();
 
     const channels = socket == null ? [] : socket.channels;
@@ -50,7 +50,10 @@ function CreateGameContent() {
   }
 
   return (
-    <form className="flex-grow flex flex-col justify-center items-center relative">
+    <form
+      className="flex-grow flex flex-col justify-center items-center relative"
+      onSubmit={handleSubmit}
+    >
       <button className="absolute top-0 right-0 mr-2 text-lg" onClick={handleClose}>
         x
       </button>

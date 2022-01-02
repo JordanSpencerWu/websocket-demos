@@ -1,37 +1,30 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import debounce from 'lodash.debounce';
 
-import { useAppSelector } from 'components/pages/DemoOnePage/app/hooks';
-import { selectUserName } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
+import { PLAYER1, PLAYER2, PLAYER_JOINED } from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
   PLAYER_JOIN_GAME_EVENT,
   PLAYER_LEAVE_GAME_EVENT,
 } from 'components/pages/DemoOnePage/contants/channelEvents';
-import { SocketContext } from 'components/pages/DemoOnePage/providers/SocketProvider';
-import {
-  findChannelTopic,
-  getGameRoomChannel,
-} from 'components/pages/DemoOnePage/contants/channels';
 
 import PlayersStatus from './PlayersStatus';
 
 type Props = {
   game: any;
+  gameRoomChannel: any;
+  userName: string;
 };
 
 /**
  * Waiting state component displays the waiting state of the players.
  */
 function WaitingState(props: Props) {
-  const { game } = props;
-
-  const userName = useAppSelector(selectUserName);
-  const socket = useContext(SocketContext);
+  const { game, gameRoomChannel, userName } = props;
 
   const { player1, player2, rules, game_name: gameName } = game;
 
   let message = 'Waiting for two more players';
-  if (rules.player1 == 'joined' || rules.player2 == 'joined') {
+  if (rules.player1 == PLAYER_JOINED || rules.player2 == PLAYER_JOINED) {
     message = 'Waiting for one more player';
   }
 
@@ -40,19 +33,16 @@ function WaitingState(props: Props) {
 
   function handleButtonClick(event: React.MouseEvent): void {
     event.preventDefault();
-    const channels = socket == null ? [] : socket.channels;
-    const gameRoomChannelTopic = getGameRoomChannel(gameName);
-    const gameRoomChannel = findChannelTopic(channels, gameRoomChannelTopic);
 
     if (isInGame && gameRoomChannel) {
-      const player = player1.name == userName ? 'player1' : 'player2';
+      const player = player1.name == userName ? PLAYER1 : PLAYER2;
       gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, player).receive('error', () => {
         alert('Failed to leave game.');
       });
     }
 
     if (!isInGame && gameRoomChannel) {
-      const player = rules.player1 == 'not_joined' ? 'player1' : 'player2';
+      const player = rules.player1 == 'not_joined' ? PLAYER1 : PLAYER2;
       gameRoomChannel.push(PLAYER_JOIN_GAME_EVENT, player).receive('error', () => {
         alert('Failed to join game.');
       });

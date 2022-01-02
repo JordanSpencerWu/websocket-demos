@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { PLAYER_IS_READY } from 'components/pages/DemoOnePage/contants/rulesStates';
+
 type Props = {
   game: any;
   userName: string;
@@ -15,8 +17,8 @@ function PlayersStatus(props: Props) {
 
   let player1Name = player1.name || 'TBA';
   let player2Name = player2.name || 'TBA';
-  const player1IsReady = rules.player1 == 'ready' ? ' is ready' : '';
-  const player2IsReady = rules.player2 == 'ready' ? ' is ready' : '';
+  const player1IsReady = rules.player1 == PLAYER_IS_READY ? ' is ready' : '';
+  const player2IsReady = rules.player2 == PLAYER_IS_READY ? ' is ready' : '';
 
   if (player1Name == userName) {
     player1Name += ' (You)';
