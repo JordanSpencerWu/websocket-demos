@@ -10,6 +10,7 @@ defmodule ServerWeb.Router do
 
     post "/token", TokenController, :create
     get "/games", GameController, :index
+    get "/games/:game_name", GameController, :show
   end
 
   # Enables LiveDashboard only for development

@@ -23,6 +23,7 @@ import {
   getGameRoomChannel,
 } from 'components/pages/DemoOnePage/contants/channels';
 import pathTo from 'utils/pathTo';
+import service from 'services/service';
 
 import WaitingState from './WaitingState';
 import PlayersReadyState from './PlayersReadyState';
@@ -55,6 +56,13 @@ function GameContent() {
 
   const game = games.find((game) => game.game_name == gameName);
   const gameRoomChannelTopic = getGameRoomChannel(gameName);
+
+  useEffect(() => {
+    service
+      .fetchGame(gameName)
+      .then((response: Response) => response.json())
+      .then((game) => dispatch(updateGame(game)));
+  }, []);
 
   useJoinChannel(gameRoomChannelTopic);
 

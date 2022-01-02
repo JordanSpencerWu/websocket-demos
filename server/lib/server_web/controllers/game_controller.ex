@@ -13,4 +13,10 @@ defmodule ServerWeb.GameController do
 
     json(conn, %{games: games})
   end
+
+  def show(conn, %{"game_name" => game_name} = _params) do
+    game = Game.state(game_name)
+
+    json(conn, game)
+  end
 end
