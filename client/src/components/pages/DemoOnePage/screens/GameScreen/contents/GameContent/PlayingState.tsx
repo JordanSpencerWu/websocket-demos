@@ -116,7 +116,7 @@ function PlayingState(props: Props) {
       />
       {winner && (
         <button className={buttonClass} onClick={debounce(handlePlayAgainClick, 200)}>
-          Play Agin
+          Play Again
         </button>
       )}
       <button className={buttonClass} onClick={debounce(handleLeaveButtonClick, 200)}>

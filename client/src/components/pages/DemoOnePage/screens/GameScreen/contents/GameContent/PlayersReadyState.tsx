@@ -72,6 +72,9 @@ function PlayersReadyState(props: Props) {
   if (youAreReady) {
     message = 'Waiting for other player to be ready';
   }
+  if (!isInGame && aPlayerIsReady) {
+    message = 'Waiting for one player to be ready';
+  }
 
   return (
     <div className="flex flex-col text-center">
