@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 type Props = {
   board: any;
+  winningCoordinates: Array<any>;
   handleClick: (row: number, col: number, value: string) => void;
   isYourTurn: boolean;
 };
@@ -32,21 +33,35 @@ function getRowColumn(index: number) {
   }
 }
 
+function isWinCoordinate(coordinates: Array<any>, coordinate: Array<any>) {
+  return coordinates.some((c) => c.join('') == coordinate.join(''));
+}
+
 function Board(props: Props) {
-  const { board, handleClick, isYourTurn } = props;
+  const { board, winningCoordinates, handleClick, isYourTurn } = props;
 
   const values = board.flatMap((row: Array<string | null>) => row);
 
   return (
     <div className="grid grid-cols-3 grid-rows-3">
       {values.map((value: string, index: number) => {
+        const coordinate = getRowColumn(index);
+        const [row, col] = coordinate;
+
+        let isWin = false;
+        if (winningCoordinates && isWinCoordinate(winningCoordinates, coordinate)) {
+          isWin = true;
+        }
+
         const buttonClass = classNames(
           'w-24 h-24 border-2 border-green-gecko flex justify-center items-center text-4xl',
           {
             'cursor-pointer': !value && isYourTurn,
           },
+          {
+            win: isWin,
+          },
         );
-        const [row, col] = getRowColumn(index);
 
         return (
           <div key={index} className={buttonClass} onClick={() => handleClick(row, col, value)}>

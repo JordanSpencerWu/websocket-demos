@@ -35,7 +35,15 @@ function getWinMessage(winner: string, youArePlayer1: boolean) {
 function PlayingState(props: Props) {
   const { game, gameRoomChannel, userName } = props;
 
-  const { game_board: gameBoard, game_name: gameName, rules, player1, player2, winner } = game;
+  const {
+    game_board: gameBoard,
+    game_name: gameName,
+    player1,
+    player2,
+    rules,
+    winner,
+    winning_coordinates: winningCoordinates,
+  } = game;
   const player = player1.name == userName ? PLAYER1 : PLAYER2;
   const isYourTurn =
     (rules.state == PLAYER1_TURN && player1.name == userName) ||
@@ -100,7 +108,12 @@ function PlayingState(props: Props) {
       <h1 className="text-4xl mb-1">{gameName}</h1>
       {winner ? <p>{winMessage}</p> : <p className="">{message}</p>}
       <p className="mb-4">{`You're value: ${yourValue}`}</p>
-      <Board board={gameBoard} handleClick={handleBoardClick} isYourTurn={isYourTurn} />
+      <Board
+        board={gameBoard}
+        winningCoordinates={winningCoordinates}
+        handleClick={handleBoardClick}
+        isYourTurn={isYourTurn}
+      />
       {winner && (
         <button className={buttonClass} onClick={debounce(handlePlayAgainClick, 200)}>
           Play Agin

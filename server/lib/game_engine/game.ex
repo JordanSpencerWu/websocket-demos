@@ -25,6 +25,7 @@ defmodule GameEngine.Game do
             player1: %{name: nil},
             player2: %{name: nil},
             rules: %Rules{},
+            winning_coordinates: nil,
             winner: nil
 
   def start_link(game_name) when is_binary(game_name) do
@@ -91,6 +92,7 @@ defmodule GameEngine.Game do
           [nil, nil, nil]
         ])
         |> Map.put(:winner, nil)
+        |> Map.put(:winning_coordinates, nil)
 
       {:reply, :ok, state, @timeout}
     else
@@ -157,7 +159,15 @@ defmodule GameEngine.Game do
         |> update_winner(player, check_win?, check_tie?)
 
       if check_win? do
-        {:reply, :ok, %{state | winner: player}, @timeout}
+        winning_coordinates =
+          coordinates
+          |> Board.win_coordinates()
+          |> MapSet.to_list()
+          |> Enum.map(fn coordinate ->
+            [coordinate.row, coordinate.col]
+          end)
+
+        {:reply, :ok, %{state | winner: player, winning_coordinates: winning_coordinates}, @timeout}
       else
         {:reply, :ok, state, @timeout}
       end
@@ -178,6 +188,7 @@ defmodule GameEngine.Game do
           [nil, nil, nil]
         ])
         |> Map.put(:winner, nil)
+        |> Map.put(:winning_coordinates, nil)
 
       {:reply, :ok, state, @timeout}
     else
@@ -192,7 +203,6 @@ defmodule GameEngine.Game do
   end
 
   def handle_info(:game_state_changed, state) do
-    IO.inspect(state)
     Endpoint.broadcast!(@game_lobby_channel, @game_game_state_changed_event, state)
 
     {:noreply, state}

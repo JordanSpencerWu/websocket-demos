@@ -81,6 +81,10 @@ defmodule GameEngine.Board do
     Enum.any?(@win_conditions, &MapSet.subset?(&1, coordinates))
   end
 
+  def win_coordinates(coordinates) do
+    Enum.find(@win_conditions, &MapSet.subset?(&1, coordinates))
+  end
+
   def check_tie?(board, check_win?) do
     all_coordinates =
       board.x_coordinates

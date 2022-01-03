@@ -25,7 +25,8 @@ a.active {
   color: white;
 }
 
-.game-link.active {
+.game-link.active,
+.win {
   background-color: rgba(var(--green-gecko-rgb), 0.6);
   color: white;
   cursor: default;
