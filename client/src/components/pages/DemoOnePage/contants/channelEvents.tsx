@@ -8,4 +8,5 @@ export const PLAYER_PLAY_AGAIN_EVENT = 'player_play_again';
 
 export const GAME_CREATED_EVENT = 'game_created';
 export const GAME_DELETED_EVENT = 'game_deleted';
+export const GAME_STATE_CHANGED_EVENT = 'game_state_changed';
 export const UPDATE_GAME_EVENT = 'update_game';

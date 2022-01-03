@@ -7,6 +7,7 @@ defmodule GameEngine.Game do
   alias GameEngine.Rules
   alias ServerWeb.Endpoint
 
+  @game_game_state_changed_event "game_state_changed"
   @game_deleted_event "game_deleted"
   @game_lobby_channel "game_room:lobby"
 
@@ -190,6 +191,13 @@ defmodule GameEngine.Game do
     {:stop, {:shutdown, :timeout}, state}
   end
 
+  def handle_info(:game_state_changed, state) do
+    IO.inspect(state)
+    Endpoint.broadcast!(@game_lobby_channel, @game_game_state_changed_event, state)
+
+    {:noreply, state}
+  end
+
   def via_tuple(name) do
     {:via, Registry, {GameRegistry, name}}
   end
@@ -201,6 +209,10 @@ defmodule GameEngine.Game do
   end
 
   defp update_rules(state, rules) do
+    if state.rules.state != rules.state do
+      Process.send(self(), :game_state_changed, [])
+    end
+
     %{state | rules: rules}
   end
 

@@ -3,10 +3,14 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { useAppSelector, useAppDispatch } from 'components/pages/DemoOnePage/app/hooks';
+import { useSocketOnListener } from 'components/pages/DemoOnePage/hooks';
+import pathTo from 'utils/pathTo';
 import {
-  selectGames,
   addGame,
   removeGame,
+  selectGames,
+  selectUserName,
+  updateGame,
 } from 'components/pages/DemoOnePage/app/features/game/gameSlice';
 import {
   GAME_OVER,
@@ -18,10 +22,9 @@ import {
 import { GAME_LOBBY_CHANNEL } from 'components/pages/DemoOnePage/contants/channels';
 import {
   GAME_CREATED_EVENT,
+  GAME_STATE_CHANGED_EVENT,
   GAME_DELETED_EVENT,
 } from 'components/pages/DemoOnePage/contants/channelEvents';
-import { useSocketOnListener } from 'components/pages/DemoOnePage/hooks';
-import pathTo from 'utils/pathTo';
 
 export function NoGamesMessage() {
   return (
@@ -55,6 +58,7 @@ function getGameStatus(ruleState: string): string {
  */
 function GameList() {
   const games = useAppSelector(selectGames);
+  const userName = useAppSelector(selectUserName);
   const { gameName } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -64,6 +68,12 @@ function GameList() {
   };
 
   useSocketOnListener(GAME_LOBBY_CHANNEL, GAME_CREATED_EVENT, handleOnGameCreated);
+
+  const handleGameStateChanged = (payload: object) => {
+    dispatch(updateGame(payload));
+  };
+
+  useSocketOnListener(GAME_LOBBY_CHANNEL, GAME_STATE_CHANGED_EVENT, handleGameStateChanged);
 
   const handleOnGameDeleted = (payload: any) => {
     dispatch(removeGame(payload.game_name));
@@ -90,7 +100,9 @@ function GameList() {
       ) : (
         <ol>
           {games.map((game) => {
-            const { game_name } = game;
+            const { game_name, player1, player2 } = game;
+            const isInGame =
+              userName == player1.name || userName == player2.name ? ' (in game)' : '';
             const linkClass = classNames(
               'block p-1 game-link cursor-pointer flex justify-between items-center',
               {
@@ -101,7 +113,7 @@ function GameList() {
             return (
               <li key={game_name} className="border-b border-green-gecko">
                 <Link to={pathTo.demo1.game(game_name)} className={linkClass}>
-                  <p className="truncate">{game_name}</p>
+                  <p className="truncate">{game_name + isInGame}</p>
                   <span className="text-xs mt-1">{getGameStatus(game.rules.state)}</span>
                 </Link>
               </li>
