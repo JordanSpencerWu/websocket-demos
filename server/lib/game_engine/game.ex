@@ -1,4 +1,8 @@
 defmodule GameEngine.Game do
+  @moduledoc """
+  The Game GenServer will store the state of the game and handle state updates
+  """
+
   use GenServer, restart: :transient
 
   alias __MODULE__

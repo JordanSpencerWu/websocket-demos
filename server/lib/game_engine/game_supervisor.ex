@@ -1,4 +1,8 @@
 defmodule GameEngine.GameSupervisor do
+  @moduledoc """
+  The GameSupervisor will supervise each GameEngine.Game child process
+  """
+
   use DynamicSupervisor
 
   alias GameEngine.Game

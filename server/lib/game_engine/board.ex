@@ -1,4 +1,9 @@
 defmodule GameEngine.Board do
+  @moduledoc """
+  A Board%{} struct contains both the x and y coordinates of a
+  tic tac toe game.
+  """
+
   alias __MODULE__
   alias GameEngine.Coordinate
 
@@ -50,10 +55,16 @@ defmodule GameEngine.Board do
     ])
   ]
 
+  @doc """
+  Create a new %Board{}
+  """
   def new() do
     %Board{x_coordinates: MapSet.new(), o_coordinates: MapSet.new()}
   end
 
+  @doc """
+  Pick a coordinate in a board.
+  """
   def pick(board, choice, row, col) when choice in @choices do
     with {:ok, coordinate} <- Coordinate.new(row, col),
          false <- MapSet.member?(board.x_coordinates, coordinate),
@@ -77,14 +88,23 @@ defmodule GameEngine.Board do
 
   def pick(_board, _choice, _row, _col), do: {:error, :invalid_choice}
 
+  @doc """
+  Check if there's a winner.
+  """  
   def check_win?(coordinates) do
     Enum.any?(@win_conditions, &MapSet.subset?(&1, coordinates))
   end
 
+  @doc """
+  Returns the win coordinate.
+  """
   def win_coordinates(coordinates) do
     Enum.find(@win_conditions, &MapSet.subset?(&1, coordinates))
   end
 
+  @doc """
+  Check if there's a tie.
+  """
   def check_tie?(board, check_win?) do
     all_coordinates =
       board.x_coordinates

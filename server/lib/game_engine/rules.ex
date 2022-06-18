@@ -1,4 +1,8 @@
 defmodule GameEngine.Rules do
+  @moduledoc """
+  Define the game rules and state.
+  """
+
   alias __MODULE__
 
   @players [:player1, :player2]
@@ -8,8 +12,14 @@ defmodule GameEngine.Rules do
             player1: :not_joined,
             player2: :not_joined
 
+  @doc """
+  Create a new %Rules{}
+  """
   def new(), do: %Rules{}
 
+  @doc """
+  Check if state is valid and can process to next state.
+  """
   def check(rules, {player, :leave}) when player in @players do
     rules = Map.put(rules, player, :not_joined)
     other_player = if player == :player1, do: :player2, else: :player1
@@ -87,6 +97,9 @@ defmodule GameEngine.Rules do
 
   def check(_state, _action), do: :error
 
+  @doc """
+  Create a new %Coordinate{}
+  """
   defp random_player_turn do
     Enum.random([:player1_turn, :player2_turn])
   end
