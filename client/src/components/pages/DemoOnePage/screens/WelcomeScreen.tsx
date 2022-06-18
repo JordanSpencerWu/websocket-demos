@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import Button from 'components/Button';
 import pathTo from 'utils/pathTo';
 
 /**
@@ -14,9 +14,9 @@ function WelcomeScreen() {
         In this demo we will be using phoenix channel in a multiple player setting. Users can create
         and join games. Each game is a tic tac toe game that can be played between two players.
       </p>
-      <Button className="mt-8" to={pathTo.demo1.signIn}>
+      <Link className="mt-8 underline" to={pathTo.demo1.signIn}>
         Continue
-      </Button>
+      </Link>
     </section>
   );
 }

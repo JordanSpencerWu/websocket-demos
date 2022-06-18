@@ -47,7 +47,7 @@ function SignInScreen() {
         type="text"
         autoFocus
       />
-      <Button type="submit" className={buttonClass} to={pathTo.demo1.signIn} onClick={handleSubmit}>
+      <Button type="submit" className={buttonClass}>
         Sign in
       </Button>
     </form>

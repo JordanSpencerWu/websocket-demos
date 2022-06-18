@@ -1,13 +1,15 @@
 import { useContext, useEffect } from 'react';
+import { Channel, Socket } from 'phoenix';
 
 import { SocketContext } from 'components/pages/DemoOnePage/providers/SocketProvider';
 import { findChannelTopic } from 'components/pages/DemoOnePage/contants/channels';
 
 function useJoinChannel(channelTopic: string) {
-  const socket = useContext(SocketContext);
+  const socket: Socket = useContext(SocketContext);
 
   useEffect(() => {
-    const channels = socket == null ? [] : socket.channels;
+    // @ts-ignore
+    const channels: Channel[] = socket == null ? [] : socket.channels;
     let channel = findChannelTopic(channels, channelTopic);
 
     if (socket != null && !channel) {

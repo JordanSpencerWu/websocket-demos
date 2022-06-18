@@ -14,12 +14,14 @@ function useSocketOnListener(
   const socket = useContext(SocketContext);
 
   useEffect(() => {
+    // @ts-ignore
     const channels = socket == null ? [] : socket.channels;
     const channel = findChannelTopic(channels, channelTopic) || null;
+    // @ts-ignore
     const bindings = channel == null ? [] : channel.bindings;
     const binding = findChannelListenEvent(bindings, event) || null;
 
-    let handleRef: () => void;
+    let handleRef: number;
     if (socket != null && channel && !binding) {
       handleRef = channel.on(event, callback);
     }

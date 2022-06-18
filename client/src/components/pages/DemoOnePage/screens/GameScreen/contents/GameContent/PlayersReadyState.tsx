@@ -1,6 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import classNames from 'classnames';
+import { Channel } from 'phoenix';
 
 import {
   PLAYER1,
@@ -16,7 +17,7 @@ import PlayersStatus from './PlayersStatus';
 
 type Props = {
   game: any;
-  gameRoomChannel: any;
+  gameRoomChannel: Channel;
   userName: string;
 };
 
@@ -45,7 +46,9 @@ function PlayersReadyState(props: Props) {
     event.preventDefault();
 
     if (gameRoomChannel) {
-      gameRoomChannel.push(PLAYER_IS_READY_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_IS_READY_EVENT, payload).receive('error', () => {
         alert('Failed to be ready for game.');
       });
     } else {
@@ -57,7 +60,9 @@ function PlayersReadyState(props: Props) {
     event.preventDefault();
 
     if (gameRoomChannel) {
-      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, payload).receive('error', () => {
         alert('Failed to leave game.');
       });
     } else {

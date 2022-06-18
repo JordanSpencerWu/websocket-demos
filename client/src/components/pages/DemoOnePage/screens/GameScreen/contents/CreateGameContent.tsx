@@ -28,12 +28,15 @@ function CreateGameContent() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement> | React.MouseEvent): void {
     event.preventDefault();
 
+    // @ts-ignore
     const channels = socket == null ? [] : socket.channels;
     const gameLobbyChannel = findChannelTopic(channels, GAME_LOBBY_CHANNEL);
 
     if (gameLobbyChannel) {
+      const payload = { game_name: gameName };
+
       gameLobbyChannel
-        .push(CREATE_GAME_EVENT, gameName)
+        .push(CREATE_GAME_EVENT, payload)
         .receive('ok', () => {
           navigate(pathTo.demo1.index);
         })
@@ -65,7 +68,7 @@ function CreateGameContent() {
         type="text"
         autoFocus
       />
-      <Button type="submit" className={buttonClass} onClick={handleSubmit}>
+      <Button type="submit" className={buttonClass}>
         Create
       </Button>
     </form>

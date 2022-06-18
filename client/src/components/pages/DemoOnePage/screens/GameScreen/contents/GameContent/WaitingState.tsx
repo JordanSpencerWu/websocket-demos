@@ -1,5 +1,6 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
+import { Channel } from 'phoenix';
 
 import { PLAYER1, PLAYER2, PLAYER_JOINED } from 'components/pages/DemoOnePage/contants/rulesStates';
 import {
@@ -11,7 +12,7 @@ import PlayersStatus from './PlayersStatus';
 
 type Props = {
   game: any;
-  gameRoomChannel: any;
+  gameRoomChannel: Channel;
   userName: string;
 };
 
@@ -36,14 +37,18 @@ function WaitingState(props: Props) {
 
     if (isInGame && gameRoomChannel) {
       const player = player1.name == userName ? PLAYER1 : PLAYER2;
-      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, payload).receive('error', () => {
         alert('Failed to leave game.');
       });
     }
 
     if (!isInGame && gameRoomChannel) {
       const player = rules.player1 == 'not_joined' ? PLAYER1 : PLAYER2;
-      gameRoomChannel.push(PLAYER_JOIN_GAME_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_JOIN_GAME_EVENT, payload).receive('error', () => {
         alert('Failed to join game.');
       });
     }

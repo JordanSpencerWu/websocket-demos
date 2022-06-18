@@ -11,7 +11,8 @@
     "moduleResolution": "node",
     "paths": {
       "components/*": ["components/*"]
-    }
+    },
+    "lib": ["es2019", "dom"],
   },
   "include": ["src"]
 }

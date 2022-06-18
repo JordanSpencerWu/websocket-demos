@@ -2,8 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 type Props = {
-  board: any;
-  winningCoordinates: Array<any>;
+  board: Array<Array<string | null>>;
+  winningCoordinates: Array<Array<number>>;
   handleClick: (row: number, col: number, value: string) => void;
   isYourTurn: boolean;
 };
@@ -33,7 +33,7 @@ function getRowColumn(index: number) {
   }
 }
 
-function isWinCoordinate(coordinates: Array<any>, coordinate: Array<any>) {
+function isWinCoordinate(coordinates: Array<Array<number>>, coordinate: Array<number>) {
   return coordinates.some((c) => c.join('') == coordinate.join(''));
 }
 

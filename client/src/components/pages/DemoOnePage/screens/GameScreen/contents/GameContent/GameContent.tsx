@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Channel } from 'phoenix';
 
 import { useAppSelector, useAppDispatch } from 'components/pages/DemoOnePage/app/hooks';
 import {
@@ -32,7 +33,7 @@ import PlayersReadyState from './PlayersReadyState';
 import PlayingState from './PlayingState';
 import WaitingState from './WaitingState';
 
-function renderGameState(game: any, gameRoomChannel: any, userName: string) {
+function renderGameState(game: any, gameRoomChannel: Channel, userName: string) {
   const { rules } = game;
 
   switch (rules.state) {
@@ -64,6 +65,7 @@ function GameContent() {
 
   const game = games.find((game) => game.game_name == gameName);
   const gameRoomChannelTopic = getGameRoomChannel(gameName);
+  // @ts-ignore
   const channels = socket == null ? [] : socket.channels;
   const gameRoomChannel = findChannelTopic(channels, gameRoomChannelTopic);
 
@@ -92,11 +94,14 @@ function GameContent() {
     event.preventDefault();
 
     const shouldDelete = confirm('Want to delete game?');
+    // @ts-ignore
     const channels = socket == null ? [] : socket.channels;
     const gameLobbyChannel = findChannelTopic(channels, GAME_LOBBY_CHANNEL);
 
     if (shouldDelete && gameLobbyChannel) {
-      gameLobbyChannel.push(DELETE_GAME_EVENT, gameName).receive('error', () => {
+      const payload = { game_name: gameName };
+
+      gameLobbyChannel.push(DELETE_GAME_EVENT, payload).receive('error', () => {
         alert(`Game not found for ${gameName}.`);
       });
     }

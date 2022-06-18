@@ -29,7 +29,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@create_game_event, game_name, socket) do
+  def handle_in(@create_game_event, %{"game_name" => game_name}, socket) do
     result = GameSupervisor.start_game(game_name)
 
     case result do
@@ -45,7 +45,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@delete_game_event, game_name, socket) do
+  def handle_in(@delete_game_event, %{"game_name" => game_name}, socket) do
     result = GameSupervisor.stop_game(game_name)
 
     case result do
@@ -63,7 +63,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_join_game_event, player, socket) do
+  def handle_in(@player_join_game_event, %{"player" => player}, socket) do
     game_name = socket.assigns.game_name
     player_name = socket.assigns.user_name
     player = String.to_existing_atom(player)
@@ -83,7 +83,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_leave_game_event, player, socket) do
+  def handle_in(@player_leave_game_event, %{"player" => player}, socket) do
     game_name = socket.assigns.game_name
     player = String.to_existing_atom(player)
 
@@ -102,7 +102,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_is_ready_event, player, socket) do
+  def handle_in(@player_is_ready_event, %{"player" => player}, socket) do
     game_name = socket.assigns.game_name
     player = String.to_existing_atom(player)
 
@@ -144,7 +144,7 @@ defmodule ServerWeb.GameRoomChannel do
   end
 
   @impl true
-  def handle_in(@player_play_again, player, socket) do
+  def handle_in(@player_play_again, %{"player" => player}, socket) do
     game_name = socket.assigns.game_name
     player = String.to_existing_atom(player)
 

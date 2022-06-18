@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
+type GameState = {
+  userName: string;
+  token: string | null;
+  games: any[];
+};
+
+const initialState: GameState = {
+  userName: '',
+  token: null,
+  games: [],
+};
+
 export const gameSlice = createSlice({
   name: 'game',
-  initialState: {
-    userName: '',
-    token: null,
-    games: [],
-  },
+  initialState,
   reducers: {
     addGame: (state, action) => {
       state.games = [...state.games, action.payload];

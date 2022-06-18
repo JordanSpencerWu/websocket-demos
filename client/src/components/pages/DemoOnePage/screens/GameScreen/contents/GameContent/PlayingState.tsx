@@ -1,6 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import classNames from 'classnames';
+import { Channel } from 'phoenix';
 
 import {
   PLAYER1_TURN,
@@ -18,7 +19,7 @@ import Board from 'components/Board';
 
 type Props = {
   game: any;
-  gameRoomChannel: any;
+  gameRoomChannel: Channel;
   userName: string;
 };
 
@@ -53,7 +54,9 @@ function PlayingState(props: Props) {
     event.preventDefault();
 
     if (gameRoomChannel) {
-      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_LEAVE_GAME_EVENT, payload).receive('error', () => {
         alert('Failed to leave game.');
       });
     } else {
@@ -79,7 +82,9 @@ function PlayingState(props: Props) {
 
   function handlePlayAgainClick() {
     if (gameRoomChannel) {
-      gameRoomChannel.push(PLAYER_PLAY_AGAIN_EVENT, player).receive('error', () => {
+      const payload = { player: player };
+
+      gameRoomChannel.push(PLAYER_PLAY_AGAIN_EVENT, payload).receive('error', () => {
         alert('Failed to play again.');
       });
     }

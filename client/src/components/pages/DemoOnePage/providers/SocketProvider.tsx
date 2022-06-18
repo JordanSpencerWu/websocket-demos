@@ -6,14 +6,14 @@ import { selectToken } from 'components/pages/DemoOnePage/app/features/game/game
 
 export const WS_URL = 'ws://localhost:4000/socket';
 
-export const SocketContext = createContext(null);
+export const SocketContext = createContext<Socket>(null);
 
 type Props = {
   children: React.ReactNode;
 };
 
 function SocketProvider(props: Props) {
-  const [socket, setSocket] = useState<any>(null);
+  const [socket, setSocket] = useState<Socket>(null);
   const token = useAppSelector(selectToken);
   const { children } = props;
 

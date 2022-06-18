@@ -1,9 +1,18 @@
-export function findChannelTopic(channels: Array<object>, topic: string): any {
-  return channels.find((channel: any) => channel.topic == topic);
+import { Channel } from 'phoenix';
+
+type Binding = {
+  callback: () => void;
+  event: string;
+  ref: number;
+};
+
+export function findChannelTopic(channels: Array<Channel>, topic: string): Channel {
+  // @ts-ignore
+  return channels.find((channel: Channel) => channel.topic == topic);
 }
 
-export function findChannelListenEvent(bindings: Array<object>, event: string): any {
-  return bindings.find((binding: any) => binding.event == event);
+export function findChannelListenEvent(bindings: Array<Binding>, event: string): Binding {
+  return bindings.find((binding: Binding) => binding.event == event);
 }
 
 export function getGameRoomChannel(gameName: string) {
